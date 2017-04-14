@@ -1,0 +1,39 @@
+@CHARSET "ISO-8859-1";
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  font-size: 25px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: GreenYellow;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.navbar li a {
+    display: block;
+    color: DarkBlue;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.navbar li a:hover:not(.active) {
+    background-color: DarkBlue;
+    color: white;
+}

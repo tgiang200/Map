@@ -1,0 +1,36 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	padding: 50px 0px;
+}
+#content{
+	width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    text-align:center; 
+    vertical-align:middle;
+    border-bottom: #228B22 solid 2px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4D4D94;
+    color: white;
+    font-size: 20px;
+    text-align:center; 
+}
+
+.title{
+	 background-color: #ffffff;
+	 color: blue;
+}

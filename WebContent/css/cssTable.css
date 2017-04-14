@@ -1,0 +1,42 @@
+@CHARSET "ISO-8859-1";
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    font-size: 20px;
+    overflow: auto;
+    
+}
+
+th {
+	font-size: 25px;
+	background-color: #00FA9A;
+	color: blue;
+}
+
+tr:nth-child(odd){background-color: #E6E6FA}
+tr:nth-child(even){background-color: #E0FFFF}
+
+td:nth-child(odd){
+	text-align:right;
+	padding: 3px 10px 3px 0px;
+	font-weight: bold;
+}
+
+td:nth-child(even){
+	padding: 3px 0px 3px 10px;
+	border-left: 1px solid RebeccaPurple;
+}
+#info {
+	position: fixed;
+	top: 55px;
+	left: 1%;
+	font-size: 20px;
+	width: 98%;
+	height: 100%;
+	overflow: auto;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/jackson-core-asl-1.7.4.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/jackson-mapper-asl-1.7.4.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/java-json.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/javax.ws.rs.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.aspects-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.beans-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.context-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.core-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.jdbc-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.web.servlet-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/Referenced Libraries/org.springframework.web-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

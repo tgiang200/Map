@@ -1,0 +1,264 @@
+package control.order;
+
+import java.util.Date;
+
+import org.bson.types.ObjectId;
+import org.hibernate.mapping.Collection;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DuplicateKeyException;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
+import mongo.database.ConnectMongo;
+
+public class OrderModel {
+	public static DBCollection collectionOrder = new ConnectMongo().connect("order");
+	public static DBCollection collectionShipper = new ConnectMongo().connect("shipper");
+
+	public boolean insertOrder(BasicDBObject order) {
+		try {
+			collectionOrder.insert(order, WriteConcern.SAFE);
+			return true;
+		} catch (DuplicateKeyException ex) {
+			return false;
+		}
+	}
+
+	// Lay danh sach order dang cho xac nhan / tìm shipper 
+	public DBCursor listConfirm() {
+		BasicDBObject query = new BasicDBObject();
+		query.append("status", "waitingConfirm");
+		DBCursor cursor = collectionOrder.find(query);
+		return cursor;
+	}
+	
+	// Lay danh sach order dang duoc van chuyen
+		public DBCursor listConfirmTransporting() {
+			BasicDBObject query = new BasicDBObject();
+			query.append("status", "transporting");
+			DBCursor cursor = collectionOrder.find(query);
+			return cursor;
+		}
+
+	// Lay danh sach order da van chuyen
+	public DBCursor listConfirmTransported() {
+		BasicDBObject query = new BasicDBObject();
+		query.append("status", "transported");
+		DBCursor cursor = collectionOrder.find(query);
+		return cursor;
+	}
+
+	// Lay chi tiet order
+	public DBCursor queryOrder(String idOrder) {
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		return cursor;
+	}
+	
+	//lay trang thai don hang
+	public String getOrderStatus(String idOrder){
+		String status = "";
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		if (cursor.hasNext()){
+			status = cursor.next().get("status").toString();
+		}
+		return status;
+	}
+	
+	public DBCursor queryAllOrder() {
+		DBCursor cursor = collectionOrder.find();
+		return cursor;
+	}
+
+	// kiem tra trang thai don hang
+	public String verifyStatusOrder(String idOrder) {
+		String status = "";
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		if (cursor.hasNext()) {
+			status = (String) cursor.next().get("status");
+		}
+		return status;
+	}
+
+	// Cap nhat trang thai order
+	public boolean updateStatus(String idOrder, String status) {
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("status", status)); // $set
+																					// <=>
+																					// update
+		ObjectId id = new ObjectId(idOrder);
+		BasicDBObject searchQuery = new BasicDBObject().append("_id", id);
+		WriteResult writeResult = collectionOrder.update(searchQuery, newDocument);
+		int resultN = writeResult.getN();
+		if (resultN > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// Cap nhat shipper cho don hang
+	public boolean updateShipper(String idOrder, String shipperID) {
+		boolean result = false;
+		BasicDBObject shipperObject = new BasicDBObject();
+		BasicDBObject queryShipper = new BasicDBObject();
+		queryShipper.append("phone", shipperID);
+		DBCursor cursor = collectionShipper.find(queryShipper);
+		if (cursor.hasNext()) {
+			shipperObject = (BasicDBObject) cursor.next();
+			BasicDBObject newShipper = new BasicDBObject();
+			newShipper.append("$set", new BasicDBObject().append("shipper", shipperObject)); // $set
+																								// <=>
+																								// update
+			ObjectId id = new ObjectId(idOrder);
+			BasicDBObject searchQuery = new BasicDBObject().append("_id", id);
+			WriteResult writeResult = collectionOrder.update(searchQuery, newShipper);
+			int resultN = writeResult.getN();
+			if (resultN > 0) {
+				result = true;
+			}
+		}
+		return result;
+		
+	}
+
+	// Kiem tra shipper cua don hang
+	public boolean verifyShipperOrder(String idOrder) {
+		boolean result = false;
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		JSONObject order = new JSONObject();
+		while (cursor.hasNext()) {
+			try {
+				order = new JSONObject(cursor.next().toString());
+				if (order.getJSONObject("shipper").has("phone")) {
+					result = true;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	// quet tim shipper trong pham vi 2km
+	public JSONArray getListShipper(String producerLat, String producerLng) {
+		double pLat = Double.parseDouble(producerLat);
+		double pLng = Double.parseDouble(producerLng);
+		double sLat, sLng, d;
+		JSONArray arrayShipper = new JSONArray();
+		JSONObject shipperObj = new JSONObject();
+		DBCollection collection = new ConnectMongo().connectKaa("logs_24978294676695149906"); // ket
+																								// noi
+																								// den
+																								// kaa
+		DBCursor cursor = collection.find();
+		while (cursor.hasNext()) {
+			try {
+				shipperObj = new JSONObject(cursor.next().toString());
+				sLat = shipperObj.getJSONObject("event").getDouble("lat");
+				sLng = shipperObj.getJSONObject("event").getDouble("lng");
+				;
+				d = distance(pLat, pLng, sLat, sLng);
+				// System.out.println(d);
+				if (d < 2) {
+					arrayShipper.put(shipperObj);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return arrayShipper;
+	}
+
+	public void findingShipper(String idOrder) {
+		SelectShipper sp = new SelectShipper(idOrder);
+		sp.start();
+	}
+
+	// ham tinh khoang cach giua 2 diem
+	public static double distance(double lat1, double lng1, double lat2, double lng2) {
+
+		final int R = 6371; // Radius of the earth
+
+		Double latDistance = Math.toRadians(lat2 - lat1);
+		Double lonDistance = Math.toRadians(lng2 - lng1);
+		Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
+				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = R * c; // km
+		distance = Math.pow(distance, 2);
+
+		return Math.sqrt(distance);
+	}
+
+	// Lay gia van chuyen tu gia xang
+	public double getPriceTransport(String vehicle) {
+		double price = 0;
+		DBCollection collectionPrice = new ConnectMongo().connect("transportPrice");
+		DBCursor cursor = collectionPrice.find();
+		while (cursor.hasNext()) {
+			price = Double.parseDouble(cursor.next().get(vehicle).toString());
+		}
+		return price;
+	}
+
+	public String getPriceOrder(String idOrder) {
+		String price = "0";
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		if (cursor.hasNext()) {
+			price = (String) cursor.next().get("shippingPrice");
+		}
+		return price;
+	}
+	
+	public String getShipperIDFromOrder(String idOrder) throws JSONException {
+		String shipper = "";
+		BasicDBObject obj = new BasicDBObject();
+		ObjectId id = new ObjectId(idOrder);
+		obj.put("_id", id);
+		DBCursor cursor = collectionOrder.find(obj);
+		if (cursor.hasNext()) {
+			JSONObject s = new JSONObject(cursor.next().toString());
+			shipper = s.getJSONObject("shipper").getString("phone");
+			//shipper = (String) cursor.next().get("shipper").toString();
+		}
+		return shipper;
+	}
+	
+	public static void main(String[] args) throws JSONException {
+	//	System.out.println("cần thơ");
+
+		// SelectShipper sp = new SelectShipper("58e1ec69dd675e2460216c88");
+		// sp.start();
+
+		//SelectShipper s = new SelectShipper("58eb94c10f2ec10fb2acb94d");
+		//s.start();
+		OrderModel orderModel= new OrderModel();
+		//float f = Float.parseFloat(orderModel.getPriceOrder("58f0d6589fd5a3250893c42c"));
+		//boolean f = orderModel.updateShipper("58f0e4589fd5a32508268485", "11111");
+		System.out.println(new Date());
+	}
+
+}

@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+#banner {
+	position: absolute;
+	left: 1px;
+	top: 1px; 
+	height: 100px;
+	width: 1347px;
+	background: Cyan;
+}
+#menu {
+	position: absolute;
+	top: 100px;
+	left: 1px;
+	width: 200px;
+	height: 560px;
+	float: left;
+	background-color: GreenYellow;
+	font-size: 25;
+}
+
+#content {
+	position: absolute;
+	top: 100px;
+	left: 201px;
+	width: 1145px;
+	height: 560px;	
+	border-top: 2px solid DarkSlateBlue ;
+	border-left: 2px solid DarkSlateBlue ;
+	background-color: GhostWhite;
+}
