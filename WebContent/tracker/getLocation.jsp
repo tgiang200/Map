@@ -83,8 +83,8 @@ body {
 
 			document.getElementsByTagName('body')[0].appendChild(f);
 			*/
-			x.innerHTML = ("<h2><a href=\"/Map/tracker/showMap.html?lat="+lat+"&lng="+lng+"\">Accept</a></h2>"
-							+"<h2><a href=\"/Map/tracker/mapTracker.html\">Cancel</a></h2>");
+			x.innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat="+lat+"&lng="+lng+"\">Accept</a></h2>"
+							+"<h2><a href=\"/Map/tracker/mapLocation.html?lat=10.029752243559091&lng=105.76988697052002\">Cancel</a></h2>");
 			//x.innerHTML = lat+"-"+lng;
 		}
 		function getLocation() {

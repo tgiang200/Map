@@ -37,14 +37,16 @@ body {
 	
 		//document.write(username+"<br>"+salt);
 		//INIT MAP
+		var iconPosition = "/Map/img/red-location-icon.png";
 		function initMap() {
-			var ctu = {lat: 10.029752243559091, lng: 105.76855659484863 };
+			var center = {lat: ${lat}, lng: ${lng} };
 			var iconPosition = "/Map/img/red-location-icon.png";
 			map = new google.maps.Map(document.getElementById('map'), {
 				zoom : 15,
-				center : ctu,
+				center : center,
 				mapTypeId : 'terrain'
 			});
+			addMarker(center, iconPosition, null, "You are here");
 			// This event listener will call addMarker() when the map is clicked.
 			map.addListener('click', function(event) {
 				addMarker(event.latLng, iconPosition, null, event.latLng.lat() + "<br>"

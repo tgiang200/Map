@@ -172,6 +172,24 @@ public class OrderControl {
 		model.addAttribute("listOrder", listOrder);
 		return "order/listOrderConfirmTransported";
 	}
+	
+	@RequestMapping(value = "/orderFindingShipper")
+	public String orderFindingShipper(Model model) {
+		DBCursor cursor = new OrderModel().listFindingShipper();
+		List<DBObject> list = cursor.toArray();
+		String listOrder = list.toString();
+		model.addAttribute("listOrder", listOrder);
+		return "order/orderFindingShipper";
+	}
+	
+	@RequestMapping(value = "/orderCompleted")
+	public String orderComplete(Model model) {
+		DBCursor cursor = new OrderModel().listOrderCompleted();
+		List<DBObject> list = cursor.toArray();
+		String listOrder = list.toString();
+		model.addAttribute("listOrder", listOrder);
+		return "order/orderComplete";
+	}
 
 	// Thong tin chi tiet order
 	@RequestMapping(value = "/orderID={idOrder}")

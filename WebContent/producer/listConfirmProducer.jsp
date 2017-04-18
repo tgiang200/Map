@@ -64,6 +64,8 @@
 	document.write("</table>");
 	document.write("</div>");
 </script>
+<br>
+<a href="/Map/producer/listProducerConfirmed.html" style="font-size: 20px">Producer đã duyệt</a>
 </center>
 </div>
 </body>

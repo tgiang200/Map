@@ -61,6 +61,11 @@
 	document.write("</table>");
 	document.write("</div>");
 </script>
+<br>
+<a href="/Map/order/orderFindingShipper.html" style="font-size: 20px">Đơn hàng đang tìm shipper |</a>
+<a href="/Map/order/listTransporting.html" style="font-size: 20px">Đơn hàng đang vận chuyển |</a>
+<a href="/Map/order/listConfirmTransported.html" style="font-size: 20px">Đơn hàng đã vận chuyển</a>
+<a href="/Map/order/orderCompleted.html" style="font-size: 20px">Đơn hàng đã hoàn thành giao dịch</a>
 </center>
 </body>
 </html>

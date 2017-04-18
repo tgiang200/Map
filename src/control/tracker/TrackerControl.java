@@ -25,6 +25,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import control.api.ApiModel;
+import control.shipper.ShipperModel;
 
 
 @Controller
@@ -43,6 +44,18 @@ public class TrackerControl{
 	}
 	
 	//Tra ve trang mapTracker hien thi ban do
+		@RequestMapping (value = "/mapLocation")
+		public String mapLocation(Model model, HttpServletRequest request, HttpServletResponse res, HttpSession session){
+			//Nhan toa do tu xac nhan cua nguoi dung
+			String strLat = request.getParameter("lat");
+			String strLng = request.getParameter("lng");
+			//Goi toa do sang trang hien thi
+			model.addAttribute("lat", strLat);
+			model.addAttribute("lng", strLng);
+			return  "tracker/map";
+		}
+	
+	//Tra ve trang mapTracker hien thi ban do
 	@RequestMapping (value = "/showMap")
 	public String getPosition(Model model, HttpServletRequest request, HttpServletResponse res, HttpSession session){
 		//Nhan toa do tu xac nhan cua nguoi dung
@@ -58,6 +71,8 @@ public class TrackerControl{
 		return  "tracker/mapTracker";
         //return "homepage";
 	}
+	
+	
 	
 	@RequestMapping (value = "/mapTracker")
 	public String mapTracker(Model model, @RequestParam(value = "action", required = false) String t){
@@ -93,11 +108,14 @@ public class TrackerControl{
 		return "road/findRoad";
 	}
 	
-	
+	// Danh sach user tracking
 	@RequestMapping (value = "/listUserTracking")
 	public String listUserTracking(Model model){
-		JSONArray list = new ApiModel().getListUserKaa();
-		model.addAttribute("list",list);
+		//JSONArray list = new ApiModel().getListUserKaa();
+		DBCursor cursor = new ShipperModel().queryAllShipper();
+		List<DBObject> list = cursor.toArray();
+		model.addAttribute("list", list);
+		System.out.println(list);
 		model.addAttribute("lat", 10.030901);
 		model.addAttribute("lng", 105.768846);
 		return "tracker/listUserTracking";

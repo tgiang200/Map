@@ -38,6 +38,20 @@ public class OrderModel {
 		return cursor;
 	}
 	
+	public DBCursor listFindingShipper() {
+		BasicDBObject query = new BasicDBObject();
+		query.append("status", "findingShipper");
+		DBCursor cursor = collectionOrder.find(query);
+		return cursor;
+	}
+	
+	public DBCursor listOrderCompleted() {
+		BasicDBObject query = new BasicDBObject();
+		query.append("status", "completed");
+		DBCursor cursor = collectionOrder.find(query);
+		return cursor;
+	}
+	
 	// tim kim order theo keyword
 		public JSONArray searchOrder(String keyword) {
 			JSONArray array = new JSONArray();

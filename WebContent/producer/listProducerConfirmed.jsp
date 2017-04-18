@@ -39,7 +39,7 @@
 	var info = ${producer};
 	document.write("<div id=\"info\">");
 	document.write("<table>");
-	document.write("<th class=\"title\" colspan=\"7\"><center><h2>Danh sách producer</h2></center></th>");
+	document.write("<th class=\"title\" colspan=\"7\"><center><h2>Danh sách producer đã duyệt</h2></center></th>");
 	document.write("<h4>${message}</h4>");
 	document.write("<tr><th><center>Họ tên</center></th>");
 	document.write("<th><center>Tên cửa hàng</center></th>");
@@ -64,6 +64,8 @@
 	document.write("</table>");
 	document.write("</div>");
 </script>
+<br>
+<a href="/Map/producer/listConfirm.html" style="font-size: 20px">Producer chờ duyệt</a>
 </center>
 </div>
 </body>

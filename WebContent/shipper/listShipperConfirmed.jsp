@@ -61,6 +61,8 @@
 	document.write("</table>");
 	document.write("</div>");
 </script>
+<br>
+<a href="/Map/shipper/listConfirm.html" style="font-size: 20px">Shipper chờ duyệt</a>
 </center>
 </body>
 </html>

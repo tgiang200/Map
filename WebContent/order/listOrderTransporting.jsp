@@ -36,7 +36,7 @@
 	var info = ${listOrder};
 	document.write("<div id=\"info\">");
 	document.write("<table>");
-	document.write("<th class=\"title\" colspan=\"8\"><center><h2>Đơn hàng đang được giao</h2></center></th>");
+	document.write("<th class=\"title\" colspan=\"8\"><center><h2>Đơn hàng đang được vận chuyển</h2></center></th>");
 	document.write("<tr><th><center>Producer</center></th>");
 	document.write("<th><center>SĐT producer</center></th>");
 	document.write("<th><center>Shipper</center></th>");
@@ -63,6 +63,11 @@
 	document.write("</table>");
 	document.write("</div>");
 </script>
+<br>
+<a href="/Map/order/listConfirm.html" style="font-size: 20px">Đơn hàng chờ duyệt |</a>
+<a href="/Map/order/orderFindingShipper.html" style="font-size: 20px">Đơn hàng đang tìm shipper |</a>
+<a href="/Map/order/listConfirmTransported.html" style="font-size: 20px">Đơn hàng đã vận chuyển |</a>
+<a href="/Map/order/orderCompleted.html" style="font-size: 20px">Đơn hàng đã hoàn thành giao dịch</a>
 </center>
 </body>
 </html>
