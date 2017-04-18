@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.WriteResult;
 
 import mongo.database.ConnectMongo;
 
@@ -89,9 +90,56 @@ public class LoginModel {
 		return result;
 	}
 	
+	public boolean verifyPhoneEmail(String phone, String email, String userType){
+		boolean result = false;
+		BasicDBObject obj = new BasicDBObject();
+		obj.put("phone", phone);
+		obj.put("email", email);
+		if (userType.equals("producer")){
+			DBCollection cp = new ConnectMongo().connect("producer");
+			DBCursor cursor = cp.find(obj);
+			if (cursor.hasNext()){
+				result = true;
+			}
+		}
+		
+		if (userType.equals("shipper")){
+			DBCollection cs = new ConnectMongo().connect("shipper");
+			DBCursor cursor = cs.find(obj);
+			if (cursor.hasNext()){
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean updatePassword(String phone, String newPassword, String userType){
+		boolean result = false;
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("password", newPassword));
+		BasicDBObject searchQuery = new BasicDBObject().append("phone", phone);
+		if (userType.equals("producer")){
+			DBCollection cp = new ConnectMongo().connect("producer");
+			WriteResult r =cp.update(searchQuery, newDocument);
+			if (r.isUpdateOfExisting()) {
+				result = true;
+			} 
+		}
+		if (userType.equals("shipper")){
+			DBCollection cp = new ConnectMongo().connect("shipper");
+			WriteResult r =cp.update(searchQuery, newDocument);
+			if (r.isUpdateOfExisting()) {
+				result = true;
+			} 
+		}
+		return result;
+	}
 	public static void main(String [] args){
 		//for (int i=0;i<=20;i++){
-			new LoginModel().sendMail("giangb1304545@student.ctu.edu.vn", "test");
+			//new LoginModel().sendMail("giangb1304545@student.ctu.edu.vn", "test");
 		//}
+		boolean b = new LoginModel().updatePassword("012", "012", "producer");
+		System.out.println(b);
 	}
 }

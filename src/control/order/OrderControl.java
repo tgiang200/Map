@@ -114,7 +114,7 @@ public class OrderControl {
 			order.put("shipper", shipper);
 			order.put("type", type);
 			order.put("customerName", customerName);
-			order.put("customerAddress", address);
+			order.put("customerAddress", address.replace("..", "/"));
 			order.put("customerPhone", customerPhone);
 			order.put("meansure", meansure);
 			order.put("vehicleType", vehicleType);
@@ -128,8 +128,10 @@ public class OrderControl {
 			boolean result = new OrderModel().insertOrder(order);
 			if (result) {
 				respone.put("result", "success");
+				respone.put("result", "created");
 			} else {
 				respone.put("result", "failed");
+				respone.put("message", "failed");
 			}
 		}
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
@@ -243,9 +245,19 @@ public class OrderControl {
 		if (!hasShipper){
 			boolean result = orderModel.updateShipper(idOrder, shipperID);
 			if (result) {
+				//lay thong tin don hang goi den cho shipper
 				respone.put("result", "success");
 				respone.put("message", "success");
 				orderModel.updateStatus(idOrder, "transporting");
+				DBCursor cursor = orderModel.queryOrder(idOrder);
+				if (cursor.hasNext()){
+					JSONObject object = new JSONObject(cursor.next().toString());
+					respone.put("producerName", object.getJSONObject("producer").getString("fullname"));
+					respone.put("producerPhone", object.getJSONObject("producer").getString("phone"));
+					respone.put("producerStore", object.getJSONObject("producer").getString("storeName"));
+					respone.put("producerAddress", object.getJSONObject("producer").getString("address"));
+					respone.put("idOrder", object.getJSONObject("_id").getString("$oid"));
+				}
 			} else {
 				respone.put("result", "failed");
 				respone.put("message", "error");

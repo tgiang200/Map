@@ -24,6 +24,7 @@ body{
 	float: left;
 	width: 60%;
 	border-right: 2px solid black;
+	bottom: 10px;
 }
 #mapAddress{
 	position: fixed;
@@ -36,6 +37,7 @@ body{
 	width: 250px;
 	color: #F072A9;
 	font-size: 16px;
+	margin: 2px 0px 2px 0px;
 }
 
 td:nth-child(even){
@@ -52,6 +54,22 @@ input[type=reset],
 input[type=button]{
     font-size: 14px;
     width: 125px;
+    margin-top: 14px;
+}
+.form-style-3 input[type=text],
+.form-style-3 input[type=date],
+.form-style-3 input[type=datetime],
+.form-style-3 input[type=number],
+.form-style-3 input[type=search],
+.form-style-3 input[type=time],
+.form-style-3 input[type=url],
+.form-style-3 input[type=password],
+.form-style-3 input[type=email],
+.form-style-3 textarea{
+	margin: 2px 0px 2px 0px;
+}
+select{
+	
 }
 </style>
 <script>

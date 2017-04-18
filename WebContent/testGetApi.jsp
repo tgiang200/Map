@@ -16,15 +16,22 @@
 		//		listObj = data;
 			//	document.write("data"+data);
 			//});
-		
-	$.ajax({
-		  dataType: "json",
-		  url: 'http://172.30.40.158:8080/Map/api/login/user=producer&username=abc&password=abc',
-		  function(data) {
-				listObj = data;
-				document.write("data"+data);
-			}
-		});
+
+		$.getJSON('http://localhost:8080/Map/api/login/userType=producer&username=0123&password=abc',
+				function(data) {
+					listObj = data;
+					//return data;
+					//document.write(listObj.result);
+				}
+		);
+	 const makeRequest = async () => {
+		  data = await getJSON();
+		  //document.write(listObj.result);
+		  return data;
+		}
+	var done = makeRequest();
+	document.write(done.result);
+	document.write(String(done));
 </script>
 </body>
 </html>

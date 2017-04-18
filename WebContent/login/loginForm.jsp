@@ -14,6 +14,15 @@
 	background-color: red;
 	width: 496;
 }
+a{
+	color: #FF8000;
+	font-size: 17px;
+	text-decoration: none !important;
+	font-weight: bold;
+}
+a:hover {
+    color: red;
+}
 </style>
 <script type="text/javascript">
 function validateForm(){
@@ -74,7 +83,11 @@ function validateForm(){
 									<td><input type="submit" value="Đăng nhập"> <input
 										type="button" value="Đăng kí" onclick="register()" /></td>
 								</tr>
-								<tr><td>&ensp;</td><td></td></tr>
+								<tr><td>&ensp;</td><td><a href ="/Map/account/forgotPassword.html">Quên mật khẩu</a></td></tr>
+								<tr>
+									<td></td>
+									<td></td>
+								</tr>
 							</table>
 						</form>
 					</div>

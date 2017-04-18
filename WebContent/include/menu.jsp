@@ -6,7 +6,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="/Map/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="/Map/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
 </head>
 <body>
 
@@ -82,6 +101,17 @@
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li><div class="dropdown">
+					  <span><img src="/Map/img/search-icon.png" alt="Smiley face" height="30" width="30" style="margin: 10px 10px"></span>
+					  <div class="dropdown-content">
+					    <p><form method="get" action="/Map/user/search.html">
+					    	<input type="text" name="keyword" value="" placeholder="Tìm kiếm">
+					    	<input type="submit" value="Tìm">
+					    </form></p>
+					  </div>
+					</div>
+				</li>
+				<li></li>
 				<li><a
 					href="/Map/user/<%out.print(session.getAttribute("username"));%>/">
 						<%

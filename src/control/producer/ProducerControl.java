@@ -102,7 +102,7 @@ public class ProducerControl {
 
 		producer.put("_id", phone);
 		producer.put("fullname", fullname);
-		producer.put("address", address.replace('.', '/'));
+		producer.put("address", address.replace("..", "/"));
 		producer.put("idCard", idCard);
 		producer.put("storeName", storeName);
 		producer.put("phone", phone);
@@ -249,5 +249,47 @@ public class ProducerControl {
 			model.addAttribute("lngProducer", producer.getString("lng"));
 		}
 		return "producer/createOrder";
+	}
+	
+	@RequestMapping(value = "/update")
+	public String updateProducer(Model model, HttpServletRequest request, HttpServletResponse respone) 
+					throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		String fullName = request.getParameter("fullname");
+		String address = request.getParameter("address");
+		String idCard = request.getParameter("idCard");
+		String storeName = request.getParameter("storeName");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+		String facebook = request.getParameter("facebook");
+		String businessType = request.getParameter("businessType");
+		String password = request.getParameter("password");
+		String lat = request.getParameter("lat");
+		String lng = request.getParameter("lng");
+		String status = "waiting";
+
+		BasicDBObject producer = new BasicDBObject();
+		
+		producer.put("phone", phone);
+		producer.put("fullname", fullName);
+		producer.put("address", address);
+		producer.put("idCard", idCard);
+		producer.put("storeName", storeName);
+		producer.put("email", email);
+		producer.put("facebook", facebook);
+		producer.put("businessType", businessType);
+		producer.put("password", password);
+		producer.put("lat", lat);
+		producer.put("lng", lng);
+		producer.put("statusConfirm", status);
+
+		boolean resultInsert = new ProducerModel().updateProducer(producer, phone);
+		if (resultInsert) {
+			model.addAttribute("result", "Cập nhật thành công, đăng nhập lại để tiếp tục");
+		} else {
+			model.addAttribute("result", "Không thể cập nhật thông tin, vui lòng thử lại sau");
+		}
+
+		return "producer/resultRegister";
 	}
 }

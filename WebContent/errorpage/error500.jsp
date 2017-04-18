@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="/Map/img/check.png" />
+<link rel="shortcut icon" type="image/x-icon" href="/Map/img/error-icon.png" />
 <style>
 /* The Modal (background) */
 .modal {
@@ -23,7 +23,7 @@
 
 /* Modal Content */
 .modal-content {
-	background-color: #99ffcc;
+	background-color: #ffff33;
 	margin: auto;
 	padding: 20px;
 	border: 10px solid #33cc33;
@@ -59,8 +59,9 @@ button{
     font-size: 20px;
 }
 </style>
+<title>500 internal server error</title>
 </head>
-<body>
+<body style="background-color: #ffff60">
 
 	<!-- The Modal -->
 	<div id="myModal" class="modal">
@@ -70,8 +71,8 @@ button{
 			<span class="close">&times;</span>
 			<p>
 				<center>
-					<h1 style="color:blue">${result }</h1>
-					<button id="redirect" onclick="redirect()">OK</button>
+					<h1 style="color:red">Đã xảy ra lỗi, vui lòng đăng nhập lại để tiếp tục</h1>
+					<button id="redirect" onclick="redirect()">Đăng nhập</button>
 				</center>
 			</p>
 		</div>
@@ -81,7 +82,7 @@ button{
 	<script>
 	
 		function redirect(){
-			window.location.href = "/Map/producer/createOrder.html";
+			window.location.href = "/Map/account/loginForm.html";
 		}
 		// Get the modal
 		var modal = document.getElementById('myModal');
@@ -100,7 +101,7 @@ button{
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 			modal.style.display = "none";
-			window.location.href = "/Map/producer/createOrder.html";
+			window.location.href = "/Map/account/loginForm.html";
 		}
 
 		// When the user clicks anywhere outside of the modal, close it

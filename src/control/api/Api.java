@@ -59,17 +59,17 @@ public class Api {
 		String str = obj.toString();
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
-	
-	//Kiem tra sdt trong csdl
-	@RequestMapping (value="/forgot/userType={userType}&phone={phone}")
+
+	// Kiem tra sdt trong csdl
+	@RequestMapping(value = "/forgot/userType={userType}&phone={phone}")
 	@ResponseBody
-	public String verifyPhoneInDB(@PathVariable String userType, @PathVariable String phone) throws JSONException{
+	public String verifyPhoneInDB(@PathVariable String userType, @PathVariable String phone) throws JSONException {
 		JSONObject respone = new JSONObject();
 		ApiModel ap = new ApiModel();
 		String code;
 		boolean result = ap.verifyPhoneInDB(userType, phone);
-		System.out.println(userType+"-"+phone);
-		if (result){
+		System.out.println(userType + "-" + phone);
+		if (result) {
 			code = ap.createCode();
 			respone.put("result", "true");
 			respone.put("code", code);
@@ -80,42 +80,41 @@ public class Api {
 			respone.put("code", code);
 			respone.put("message", "Phone didnt exist in database");
 		}
-		//return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
+		// return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 		return respone.toString();
 	}
-	
+
 	// API doi mat khau
-	@RequestMapping(value="/changePassword/userType={userType}&phone={phone}&newPassword={newPassword}")
-	public ResponseEntity<String> changePassword(@PathVariable String userType, @PathVariable String phone, @PathVariable String newPassword){
+	@RequestMapping(value = "/changePassword/userType={userType}&phone={phone}&newPassword={newPassword}")
+	public ResponseEntity<String> changePassword(@PathVariable String userType, @PathVariable String phone,
+			@PathVariable String newPassword) {
 		ApiModel ap = new ApiModel();
 		boolean resultChange = ap.changePassword(userType, phone, newPassword);
 		JSONObject respone = new JSONObject();
-		if (resultChange){
+		if (resultChange) {
 			respone = ap.resultRespone("true", "Password is changed");
 		} else {
-			respone =ap.resultRespone("false", "Phone incorrect");
+			respone = ap.resultRespone("false", "Phone incorrect");
 		}
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 	}
-	
-	
+
 	// API xac nhan van chuyen tu shipper
-	@RequestMapping(value="/order/confirmTransport/idShipper={idShipper}&idOrder={idOrder}")
-	public ResponseEntity<String> confirmTransport(@PathVariable String idShipper, @PathVariable String idOrder){
+	@RequestMapping(value = "/order/confirmTransport/idShipper={idShipper}&idOrder={idOrder}")
+	public ResponseEntity<String> confirmTransport(@PathVariable String idShipper, @PathVariable String idOrder) {
 		boolean resultConfirm = new control.order.OrderModel().updateShipper(idOrder, idShipper);
 		ApiModel ap = new ApiModel();
 		JSONObject respone = new JSONObject();
-		if (resultConfirm){
+		if (resultConfirm) {
 			// Cap nhan trang thai dang giao hang cho don hang
 			new control.order.OrderModel().updateStatus(idOrder, "transporting");
 			respone = ap.resultRespone("true", "Confirmed");
 		} else {
-			respone =ap.resultRespone("false", "Cannot confirm");
+			respone = ap.resultRespone("false", "Cannot confirm");
 		}
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 	}
-	
-	
+
 	// API dang nhap voi ma hoa sha1
 	@RequestMapping(value = "/login/username={username}&salt={salt}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -139,8 +138,55 @@ public class Api {
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 
-	
-	
+	// API dang xuat
+	@RequestMapping(value = "/logout/username={username}&salt={salt}/", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> logout(Model model, @PathVariable String username, @PathVariable String salt,
+			HttpSession session) throws JSONException {
+		ApiModel ap = new ApiModel();
+		boolean resultLogout = ap.checkSaltPass("logout", username, salt);
+		JSONObject obj = new JSONObject();
+		if (resultLogout) {
+			session.removeAttribute("username");
+			obj = ap.resultRespone("success", "logout success");
+		} else {
+			obj = ap.resultRespone("failed", "cannot close session");
+		}
+		String str = obj.toString();
+		return new ResponseEntity<String>(str, HttpStatus.OK);
+	}
+
+	// API dang xuat
+	@RequestMapping(value = "/logout/username={username}&password={password}/", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> logoutSalt(Model model, @PathVariable String username, @PathVariable String password,
+			HttpSession session) throws JSONException {
+		ApiModel ap = new ApiModel();
+		boolean resultLogout = ap.login(username, password);
+		JSONObject obj = new JSONObject();
+		if (resultLogout) {
+			session.removeAttribute("username");
+			obj = ap.resultRespone("success", "logout success");
+		} else {
+			obj = ap.resultRespone("failed", "cannot close session");
+		}
+		String str = obj.toString();
+		return new ResponseEntity<String>(str, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/testApi/user={user}&lat={lat}&lng={lng}/", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> test(Model model, @PathVariable String user, @PathVariable String lat,
+			@PathVariable String lng) throws JSONException {
+		JSONObject obj = new JSONObject();
+		obj.put("result", "true");
+		obj.put("message", "success");
+		obj.put("data", user + " - " + lat + " - " + lng);
+		String str = obj.toString();
+		System.out.println(str);
+		return new ResponseEntity<String>(str, HttpStatus.OK);
+	}
+
 	// API cap nhat vi tri cua user
 	@RequestMapping(value = "/updateLocation/username={username}&lat={lat}&lng={lng}&salt={salt}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -201,55 +247,6 @@ public class Api {
 			str = js.toString();
 		}
 
-		return new ResponseEntity<String>(str, HttpStatus.OK);
-	}
-
-	// API dang xuat
-	@RequestMapping(value = "/logout/username={username}&salt={salt}/", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public ResponseEntity<String> logout(Model model, @PathVariable String username, @PathVariable String salt,
-			HttpSession session) throws JSONException {
-		ApiModel ap = new ApiModel();
-		boolean resultLogout = ap.checkSaltPass("logout", username, salt);
-		JSONObject obj = new JSONObject();
-		if (resultLogout) {
-			session.removeAttribute("username");
-			obj = ap.resultRespone("success", "logout success");
-		} else {
-			obj = ap.resultRespone("failed", "cannot close session");
-		}
-		String str = obj.toString();
-		return new ResponseEntity<String>(str, HttpStatus.OK);
-	}
-
-	// API dang xuat
-	@RequestMapping(value = "/logout/username={username}&password={password}/", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public ResponseEntity<String> logoutSalt(Model model, @PathVariable String username, @PathVariable String password,
-			HttpSession session) throws JSONException {
-		ApiModel ap = new ApiModel();
-		boolean resultLogout = ap.login(username, password);
-		JSONObject obj = new JSONObject();
-		if (resultLogout) {
-			session.removeAttribute("username");
-			obj = ap.resultRespone("success", "logout success");
-		} else {
-			obj = ap.resultRespone("failed", "cannot close session");
-		}
-		String str = obj.toString();
-		return new ResponseEntity<String>(str, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/testApi/user={user}&lat={lat}&lng={lng}/", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public ResponseEntity<String> test(Model model, @PathVariable String user, @PathVariable String lat,
-			@PathVariable String lng) throws JSONException {
-		JSONObject obj = new JSONObject();
-		obj.put("result", "true");
-		obj.put("message", "success");
-		obj.put("data", user + " - " + lat + " - " + lng);
-		String str = obj.toString();
-		System.out.println(str);
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 

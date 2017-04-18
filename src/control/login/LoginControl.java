@@ -93,6 +93,33 @@ public class LoginControl {
 		return "login/inputCode";
 	}
 	
+	//forgot password page
+	@RequestMapping (value="forgotPassword")
+	public String forgotForm(){
+		return "login/forgotPassword";
+	}
+	// tạo code
+	@RequestMapping(value="/getCode")
+	public String getCode(Model model, HttpServletRequest request){
+		LoginModel loginModel = new LoginModel();
+		String phone = request.getParameter("username");
+		String email = request.getParameter("email");
+		String userType = request.getParameter("userType");
+		//Kiem tra thong tin tai khoan co hop le hay khong
+		boolean acc = loginModel.verifyPhoneEmail(phone, email, userType);
+		if (acc){
+			String code = loginModel.createCode();
+			boolean sendMail = loginModel.sendMail(email, code);
+			//loginModel.insertCode(phone, code);
+			boolean updatePassword = loginModel.updatePassword(phone, code, userType);
+			model.addAttribute("result", "Mật khẩu mới đã được gởi đến email của bạn");
+			//model.addAttribute("phone", phone);
+		} else {
+			model.addAttribute("result", "Thông tin tài khoảng không chính xác");
+		}
+		return "login/resultGetNewPassword";
+	}
+	
 	// kiểm tra code
 	@RequestMapping (value="/verifyCode/phone={phone}&code={code}")
 	public String verifyCode(Model model, @PathVariable String phone, @PathVariable String code){

@@ -32,6 +32,8 @@ public class SelectShipper extends Thread{
 		}
 		try {
 			int numShipper;
+			int timeSend = 0; //so lan goi order cho shipper
+			double radiusFind = 1; //ban kinh tim shipper km
 			while (true){
 				// New da ton tai shipper trong don hang
 				if (orderModel.verifyShipperOrder(orderID)){
@@ -40,7 +42,11 @@ public class SelectShipper extends Thread{
 				} else {
 					String strLat = order.getJSONObject("producer").getString("lat");
 					String strLng = order.getJSONObject("producer").getString("lng");
-					listOnwork = orderModel.getListShipper(strLat, strLng);
+					listOnwork = orderModel.getListShipper(strLat, strLng, radiusFind);
+					timeSend = timeSend+1;
+					if ((timeSend%5==0)&&(radiusFind<5)){
+						radiusFind=radiusFind+0.5; //tang ban kinh do tim len 500m , toi da 5km
+					}
 					numShipper = new Random().nextInt(listOnwork.length()+1) - 1;
 					if (!listOnwork.isNull(numShipper)){
 						// Send message den shipper

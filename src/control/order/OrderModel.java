@@ -38,6 +38,16 @@ public class OrderModel {
 		return cursor;
 	}
 	
+	// tim kim order theo keyword
+		public JSONArray searchOrder(String keyword) {
+			JSONArray array = new JSONArray();
+			DBCursor cursor = collectionOrder.find(new BasicDBObject("$text", new BasicDBObject("$search", keyword)));
+			while (cursor.hasNext()) {
+				array.put(cursor.next());
+			}
+			return array;
+		}
+	
 	// Lay danh sach order dang duoc van chuyen
 		public DBCursor listConfirmTransporting() {
 			BasicDBObject query = new BasicDBObject();
@@ -159,7 +169,7 @@ public class OrderModel {
 	}
 
 	// quet tim shipper trong pham vi 2km
-	public JSONArray getListShipper(String producerLat, String producerLng) {
+	public JSONArray getListShipper(String producerLat, String producerLng, double radius) {
 		double pLat = Double.parseDouble(producerLat);
 		double pLng = Double.parseDouble(producerLng);
 		double sLat, sLng, d;
@@ -178,7 +188,7 @@ public class OrderModel {
 				;
 				d = distance(pLat, pLng, sLat, sLng);
 				// System.out.println(d);
-				if (d < 2) {
+				if (d < radius) {
 					arrayShipper.put(shipperObj);
 				}
 			} catch (JSONException e) {
@@ -255,7 +265,10 @@ public class OrderModel {
 
 		//SelectShipper s = new SelectShipper("58eb94c10f2ec10fb2acb94d");
 		//s.start();
-		OrderModel orderModel= new OrderModel();
+		JSONArray order= new OrderModel().searchOrder("shipper");
+		for (int i=0; i<order.length();i++){
+			System.out.println(order);
+		}
 		//float f = Float.parseFloat(orderModel.getPriceOrder("58f0d6589fd5a3250893c42c"));
 		//boolean f = orderModel.updateShipper("58f0e4589fd5a32508268485", "11111");
 		System.out.println(new Date());

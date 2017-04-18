@@ -9,6 +9,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DuplicateKeyException;
 import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 import mongo.database.ConnectMongo;
 
@@ -24,6 +25,20 @@ public class ProducerModel {
 		try {
 			collection.insert(producer,WriteConcern.SAFE);
 			return true;
+		} catch (DuplicateKeyException ex){
+			return false;
+		}
+	}
+	
+	public boolean updateProducer(BasicDBObject producer, String phone){
+		try {
+			BasicDBObject searchQuery = new BasicDBObject().append("phone", phone);
+			WriteResult wr = collection.update(searchQuery, producer);
+			if (wr.isUpdateOfExisting()) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (DuplicateKeyException ex){
 			return false;
 		}
@@ -86,6 +101,16 @@ public class ProducerModel {
 		return cursor;
 	}
 	
+	// tim kim producer theo keyword
+	public JSONArray searchProducer(String keyword){
+		JSONArray array = new JSONArray();
+		DBCursor cursor = collection.find(new BasicDBObject("$text", new BasicDBObject("$search", keyword)));
+		while(cursor.hasNext()){
+			array.put(cursor.next());
+		}
+		return array;
+	}
+	
 	public static void main(String [] args) throws JSONException{
 		ProducerModel pm = new ProducerModel();
 		//new ProducerModel().updateStatusProducer("12345","waiting");
@@ -93,10 +118,10 @@ public class ProducerModel {
 //			//BasicDBObject obj = (BasicDBObject) (cursor.next().get("_id"));
 //			System.out.println(cursor.next()); 
 //		}
-		JSONArray array = pm.queryProducerStatus("waiting");
-		for (int i=0; i<array.length(); i++){
-			System.out.println(array.getJSONObject(i).toString());
-		}
-		System.out.println("complete");
+		JSONArray array = pm.searchProducer("abc");
+//		for (int i=0; i<array.length(); i++){
+//			System.out.println(array.getJSONObject(i).toString());
+//		}
+//		System.out.println("complete");
 	}
 }

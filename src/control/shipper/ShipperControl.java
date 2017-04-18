@@ -45,10 +45,11 @@ public class ShipperControl {
 		String address = request.getParameter("address");
 		String idCard = request.getParameter("idCard");
 		String phone = request.getParameter("phone");
+		String dateOfBirth = request.getParameter("dateOfBirth");
 		String facebook = request.getParameter("facebook");
 		String vehicle = request.getParameter("vehicle");
 		String vehicleNumber = request.getParameter("vehicleNumber");
-		String convey = request.getParameter("convey");
+		//String convey = request.getParameter("convey")+"";
 		String password = request.getParameter("password");
 		String status = "waiting";
 		String funds = "20000";
@@ -61,10 +62,11 @@ public class ShipperControl {
 		shipper.put("idCard", idCard);
 		shipper.put("phone", phone);
 		shipper.put("email", email);
+		shipper.put("dateOfBirth", dateOfBirth);
 		shipper.put("facebook", facebook);
 		shipper.put("vehicle", vehicle);
 		shipper.put("vehicleNumber", vehicleNumber);
-		shipper.put("convey", convey);
+		//shipper.put("convey", convey);
 		shipper.put("password", password);
 		shipper.put("statusConfirm", status);
 		shipper.put("funds", funds);
@@ -82,13 +84,13 @@ public class ShipperControl {
 
 	// API đăng kí shipper
 	@RequestMapping(value = "/api/registerShipper/phone={phone}&fullname={fullname}&address={address}&idCard={idCard}&vehicle={vehicle}&"
-			+ "email={email}&facebook={facebook}&vehicleNumber={vehicleNumber}&password={password}&convey={convey}", 
+			+ "email={email}&dateOfBirth={dateOfBirth}&facebook={facebook}&vehicleNumber={vehicleNumber}&password={password}", 
 			method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> apiRegister(Model model, HttpServletRequest request, @PathVariable String phone,
-			@PathVariable String fullname, @PathVariable String address, @PathVariable String idCard,
+			@PathVariable String fullname, @PathVariable String address, @PathVariable String idCard, @PathVariable String dateOfBirth, 
 			@PathVariable String vehicle, @PathVariable String email, @PathVariable String facebook,
-			@PathVariable String vehicleNumber, @PathVariable String password, @PathVariable String convey)
+			@PathVariable String vehicleNumber, @PathVariable String password)
 			throws JSONException {
 
 		String status = "waiting";
@@ -97,16 +99,18 @@ public class ShipperControl {
 
 		shipper.put("_id", phone);
 		shipper.put("fullname", fullname);
-		shipper.put("address", address.replace('.', '/'));
+		shipper.put("address", address.replace("..", "/"));
 		shipper.put("idCard", idCard);
 		shipper.put("phone", phone);
 		shipper.put("email", email);
+		shipper.put("dateOfBirth", dateOfBirth);
 		shipper.put("facebook", facebook);
 		shipper.put("vehicle", vehicle);
 		shipper.put("vehicleNumber", vehicleNumber);
 		shipper.put("password", password);
-		shipper.put("convey", convey);
+		//shipper.put("convey", convey);
 		shipper.put("statusConfirm", status);
+		shipper.put("funds", "0");
 
 		JSONObject respone = new JSONObject();
 		boolean result = new ShipperModel().insertShipper(shipper);
@@ -203,5 +207,53 @@ public class ShipperControl {
 			respone.put("result", "failed");
 		}
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/update")
+	public String updateShipper(Model model, HttpServletRequest request, HttpServletResponse respone) 
+										throws UnsupportedEncodingException {
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		String email = request.getParameter("email");
+		String fullName = request.getParameter("fullname"); 
+		String address = request.getParameter("address");
+		String idCard = request.getParameter("idCard");
+		String phone = request.getParameter("phone");
+		String dateOfBirth = request.getParameter("dateOfBirth");
+		String facebook = request.getParameter("facebook");
+		String vehicle = request.getParameter("vehicle");
+		String vehicleNumber = request.getParameter("vehicleNumber");
+		//String convey = request.getParameter("convey")+"";
+		String password = request.getParameter("password");
+		String funds = request.getParameter("funds");
+		String status = "waiting";
+
+		BasicDBObject shipper = new BasicDBObject();
+
+		//shipper.put("_id", phone);
+		shipper.put("fullname", fullName);
+		shipper.put("address", address);
+		shipper.put("idCard", idCard);
+		shipper.put("phone", phone);
+		shipper.put("email", email);
+		shipper.put("dateOfBirth", dateOfBirth);
+		shipper.put("facebook", facebook);
+		shipper.put("vehicle", vehicle);
+		shipper.put("vehicleNumber", vehicleNumber);
+		//shipper.put("convey", convey);
+		shipper.put("password", password);
+		shipper.put("statusConfirm", status);
+		shipper.put("funds", funds);
+		
+		boolean resultInsert = new ShipperModel().updateShipper(shipper, phone);
+		if (resultInsert) {
+			model.addAttribute("result", "Cập nhật thành công, đăng nhập lại để tiếp tục");
+		} else {
+			model.addAttribute("result", "Không thể cập nhật, vui lòng thử lại sau");
+			return "shipper/resultRegister";
+		}
+
+		return "shipper/resultRegister";
 	}
 }

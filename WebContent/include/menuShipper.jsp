@@ -6,8 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="/Map/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="/Map/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/x-icon" href="/Map/img/direction.png" />
-<title>Direction</title>
 </head>
 <body>
 
@@ -41,7 +39,7 @@
               </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            	<li><a href="/Map/user/<%out.print(session.getAttribute("username"));%>/"><%out.print(session.getAttribute("username"));%></a></li>
+            	<li><a href="/Map/user/userType=shipper&username=<%out.print(session.getAttribute("username"));%>/"><%out.print(session.getAttribute("username"));%></a></li>
 				<li><a href="/Map/account/logout.html">Log out</a></li>
           </ul>
         </div><!--/.nav-collapse -->

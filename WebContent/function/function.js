@@ -4,7 +4,7 @@
 var map;
 var markers = [];
 
-// Adds a marker to the map and push to the array.
+// Đánh dấu marker trên bản đồ mà push vào mảng marker
 function addMarker(location, iconUrl, label, info) {
 	var marker = new google.maps.Marker({
 		position : location,
@@ -21,7 +21,7 @@ function addMarker(location, iconUrl, label, info) {
 	});
 	markers.push(marker);
 
-	// Show information of position
+	// Hiển thị thông tin marker 
 	var infowindow = new google.maps.InfoWindow({
 		content : info
 	});
@@ -36,31 +36,30 @@ function addMarker(location, iconUrl, label, info) {
 	// });
 }
 
-// Sets the map on all markers in the array.
+// Hiển thị tất cả các marker trong mảng lên bản đồ
 function setMapOnAll(map) {
 	for (var i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
 	}
 }
 
-// Removes the markers from the map, but keeps them in the array
-// markers[].
+// Removes marker trên bản đồ
 function clearMarkers() {
 	setMapOnAll(null);
 }
 
-// Shows any markers currently in the array.
+// Hiển thị marker trên bản đồ
 function showMarkers() {
 	setMapOnAll(map);
 }
 
-// Deletes all markers in the array by removing references to them.
+// Xóa marker trong trên bản đồ mà trong mảng
 function deleteMarkers() {
 	clearMarkers();
 	markers = [];
 }
 
-// draw a line
+// Vẽ đường nối giữa 2 điểm
 function drawLine(position1, position2) {
 	var line = new google.maps.Polyline({
 		path : [ position1, position2 ],
@@ -71,12 +70,23 @@ function drawLine(position1, position2) {
 	});
 }
 
-//remove line
+// Vẽ đường nối các điểm trong mảng
+function drawArrayLine(locationObj){
+	line = new google.maps.Polyline({
+		path : locationObj,
+		strokeColor : "#FF0000",
+		strokeOpacity : 1.0,
+		strokeWeight : 3,
+		map : map
+	});
+}
+
+// Xóa các đường đã vẽ
 function removeLine(flightPath) {
     flightPath.setMap(null);
   }
 
-//hien thi hop thoai tim kim dia diem
+// hien thi hop thoai tim kim dia diem trên bản đồ
 function searchBox(){
 	//SEARCH BOX
 	// Create the search box and link it to the UI element.
@@ -157,7 +167,7 @@ function findRoad(startP, endP, directionsService, directionsDisplay) {
 	});
 }
 
-//Hide direction
+// Ẩn đường đi
 function hideShowPath(directionsDisplay) {
     directionsDisplay.setMap(null);
 }  
