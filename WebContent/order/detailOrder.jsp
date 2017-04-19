@@ -49,6 +49,8 @@ td, th{
 	for (var i=0; i<info.length; i++){
 		document.write("<table>");
 		document.write("<th bgcolor=\"#5cb85c\" colspan=\"2\"><center><h2>Thông chi tiết đơn hàng</h2></center></th>");
+		document.write("<tr><td align=\"right\">Mã đơn hàng</td>");
+		document.write("<td>"+info[i]._id.$oid+"</td></tr>");
 		document.write("<tr><td align=\"right\">Họ tên producer</td>");
 		document.write("<td>"+info[i].producer.fullname+"</td></tr>");
 		document.write("<tr><td align=\"right\">Địa chỉ producer</td>");
@@ -77,7 +79,7 @@ td, th{
 		document.write("<td>"+info[i].distance+"</td></tr>");
 		document.write("<tr><td align=\"right\">Giá vân chuyển</td>");
 		document.write("<td>"+info[i].shippingPrice+"</td></tr>");
-		document.write("</table><br>");
+		document.write("</table>");
 		
 		document.write("<center>");
 		if (info[i].status=="waitingConfirm"){

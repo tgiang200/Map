@@ -90,4 +90,28 @@ public class User {
 		
 		return "search/resultSearch";
 	}
+	
+	public boolean verifySessionCenter(String ss){
+		if (ss.equals("center")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean verifySessionProducerCenter(String ss){
+		if (ss.equals("producer")||ss.equals("center")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean verifySessionShipper(String ss){
+		if (ss.equals("shipper")){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

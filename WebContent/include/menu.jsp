@@ -80,6 +80,7 @@
 						<li><a href="/Map/order/listTransporting.html">Đơn hàng đang vận chuyển</a></li>
 						<li><a href="/Map/order/listConfirmTransported.html">Đơn hàng đã vận chuyển</a></li>
 						<li><a href="/Map/order/orderCompleted.html">Đơn hàng đã hoàn thành giao dịch</a></li>
+						<li><a href="/Map/order/orderOfProducer/producer=<%out.print(session.getAttribute("username"));%>">Đơn hàng của tôi</a></li>
 					</ul></li>
 				
 				<li class="dropdown"><a href="#" class="dropdown-toggle"

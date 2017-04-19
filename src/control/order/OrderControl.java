@@ -26,6 +26,7 @@ import com.mongodb.DBObject;
 
 import control.producer.ProducerModel;
 import control.shipper.ShipperModel;
+import control.user.User;
 
 @Controller
 @RequestMapping(value = "/order")
@@ -138,7 +139,11 @@ public class OrderControl {
 	}
 
 	@RequestMapping(value = "/listConfirm")
-	public String listConfirm(Model model) {
+	public String listConfirm(Model model, HttpSession session) {
+		boolean ss = new User().verifySessionCenter(session.getAttribute("userType").toString());
+		if (!ss){
+			return "/Map/user/permissionDeny";
+		}
 		DBCursor cursor = new OrderModel().listConfirm();
 		List<DBObject> list = cursor.toArray();
 		String listOrder = list.toString();
@@ -147,7 +152,11 @@ public class OrderControl {
 	}
 
 	@RequestMapping(value = "/listAllOrder")
-	public String listAllOrder(Model model) {
+	public String listAllOrder(Model model, HttpSession session) {
+		boolean ss = new User().verifySessionCenter(session.getAttribute("userType").toString());
+		if (!ss){
+			return "/Map/user/permissionDeny";
+		}
 		DBCursor cursor = new OrderModel().queryAllOrder();
 		List<DBObject> list = cursor.toArray();
 		String listOrder = list.toString();
@@ -286,6 +295,27 @@ public class OrderControl {
 		}
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 	}
+	
+	
+	// API chap xoa xac nhan giao hang hang tu shipper
+		@RequestMapping(value = "/delete/shipperID={shipperID}&idOrder={idOrder}", method = RequestMethod.GET, produces = "application/json")
+		@ResponseBody
+		public ResponseEntity<String> deleteTransportOrder(@PathVariable String shipperID, @PathVariable String idOrder)
+				throws JSONException {
+			OrderModel orderModel = new OrderModel();
+			JSONObject respone = new JSONObject();
+			boolean resultDelete = orderModel.deleteShipper(idOrder, shipperID);
+			if (resultDelete){
+				orderModel.findingShipper(idOrder);
+				orderModel.updateStatus(idOrder, "findingShipper");
+				respone.put("result", "success");
+				respone.put("message", "Cancelled");
+			} else {
+				respone.put("result", "failed");
+				respone.put("message", "Has shipper");
+			}
+			return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
+		}
 
 	// API xac nhan da giao hang cua shipper
 	@RequestMapping(value = "/transported/shipperID{shipperID}&idOrder={idOrder}", method = RequestMethod.GET, produces = "application/json")
@@ -329,5 +359,12 @@ public class OrderControl {
 		return "order/redirectTransported";
 	}
 	
-
+	@RequestMapping(value="orderOfProducer/producer={idProducer}")
+	public String orderOfProducer(Model model, @PathVariable String idProducer){
+		DBCursor cursor = new OrderModel().queryAllOrderOfProducer(idProducer);
+		List<DBObject> list = cursor.toArray();
+		String listOrder = list.toString();
+		model.addAttribute("listOrder", listOrder);
+		return "order/allOrderOfProducer";
+	}
 }

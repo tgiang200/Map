@@ -71,10 +71,14 @@ function validateForm() {
         return false;
     }
     
-    if (oldPassword==""||oldPassword=='${password}') {
+    if (oldPassword=="") {
     	document.forms["register"]["password"].value = '${password}';
         return true;
     } else {
+    	if (oldPassword=='{$password}'&&password==""){
+    		document.forms["register"]["password"].value = '${password}';
+            return true;
+    	}
     	if (oldPassword != '${password}'){
     		document.getElementById("message").innerHTML = "Sai mật khẩu";
     		return false;

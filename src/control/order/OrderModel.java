@@ -30,45 +30,45 @@ public class OrderModel {
 		}
 	}
 
-	// Lay danh sach order dang cho xac nhan / tìm shipper 
+	// Lay danh sach order dang cho xac nhan / tìm shipper
 	public DBCursor listConfirm() {
 		BasicDBObject query = new BasicDBObject();
 		query.append("status", "waitingConfirm");
 		DBCursor cursor = collectionOrder.find(query);
 		return cursor;
 	}
-	
+
 	public DBCursor listFindingShipper() {
 		BasicDBObject query = new BasicDBObject();
 		query.append("status", "findingShipper");
 		DBCursor cursor = collectionOrder.find(query);
 		return cursor;
 	}
-	
+
 	public DBCursor listOrderCompleted() {
 		BasicDBObject query = new BasicDBObject();
 		query.append("status", "completed");
 		DBCursor cursor = collectionOrder.find(query);
 		return cursor;
 	}
-	
+
 	// tim kim order theo keyword
-		public JSONArray searchOrder(String keyword) {
-			JSONArray array = new JSONArray();
-			DBCursor cursor = collectionOrder.find(new BasicDBObject("$text", new BasicDBObject("$search", keyword)));
-			while (cursor.hasNext()) {
-				array.put(cursor.next());
-			}
-			return array;
+	public JSONArray searchOrder(String keyword) {
+		JSONArray array = new JSONArray();
+		DBCursor cursor = collectionOrder.find(new BasicDBObject("$text", new BasicDBObject("$search", keyword)));
+		while (cursor.hasNext()) {
+			array.put(cursor.next());
 		}
-	
+		return array;
+	}
+
 	// Lay danh sach order dang duoc van chuyen
-		public DBCursor listConfirmTransporting() {
-			BasicDBObject query = new BasicDBObject();
-			query.append("status", "transporting");
-			DBCursor cursor = collectionOrder.find(query);
-			return cursor;
-		}
+	public DBCursor listConfirmTransporting() {
+		BasicDBObject query = new BasicDBObject();
+		query.append("status", "transporting");
+		DBCursor cursor = collectionOrder.find(query);
+		return cursor;
+	}
 
 	// Lay danh sach order da van chuyen
 	public DBCursor listConfirmTransported() {
@@ -86,22 +86,29 @@ public class OrderModel {
 		DBCursor cursor = collectionOrder.find(obj);
 		return cursor;
 	}
-	
-	//lay trang thai don hang
-	public String getOrderStatus(String idOrder){
+
+	// lay trang thai don hang
+	public String getOrderStatus(String idOrder) {
 		String status = "";
 		BasicDBObject obj = new BasicDBObject();
 		ObjectId id = new ObjectId(idOrder);
 		obj.put("_id", id);
 		DBCursor cursor = collectionOrder.find(obj);
-		if (cursor.hasNext()){
+		if (cursor.hasNext()) {
 			status = cursor.next().get("status").toString();
 		}
 		return status;
 	}
-	
+
 	public DBCursor queryAllOrder() {
 		DBCursor cursor = collectionOrder.find();
+		return cursor;
+	}
+
+	public DBCursor queryAllOrderOfProducer(String idProducer) {
+		BasicDBObject query = new BasicDBObject();
+		query.append("producer.phone", idProducer);
+		DBCursor cursor = collectionOrder.find(query);
 		return cursor;
 	}
 
@@ -157,7 +164,28 @@ public class OrderModel {
 			}
 		}
 		return result;
-		
+
+	}
+
+	// Cap nhat shipper cho don hang
+	public boolean deleteShipper(String idOrder, String shipper) throws JSONException {
+		boolean result = false;
+		BasicDBObject shipperObject = new BasicDBObject();
+		String shipperID = new OrderModel().getShipperIDFromOrder(idOrder);
+		if (!shipper.equals(shipperID)){
+			return false;
+		}
+		BasicDBObject newShipper = new BasicDBObject();
+		newShipper.append("$set", new BasicDBObject().append("shipper", shipperObject));
+		ObjectId id = new ObjectId(idOrder);
+		BasicDBObject searchQuery = new BasicDBObject().append("_id", id);
+		WriteResult writeResult = collectionOrder.update(searchQuery, newShipper);
+		int resultN = writeResult.getN();
+		if (resultN > 0) {
+			result = true;
+		}
+		return result;
+
 	}
 
 	// Kiem tra shipper cua don hang
@@ -256,7 +284,7 @@ public class OrderModel {
 		}
 		return price;
 	}
-	
+
 	public String getShipperIDFromOrder(String idOrder) throws JSONException {
 		String shipper = "";
 		BasicDBObject obj = new BasicDBObject();
@@ -266,26 +294,17 @@ public class OrderModel {
 		if (cursor.hasNext()) {
 			JSONObject s = new JSONObject(cursor.next().toString());
 			shipper = s.getJSONObject("shipper").getString("phone");
-			//shipper = (String) cursor.next().get("shipper").toString();
+			// shipper = (String) cursor.next().get("shipper").toString();
 		}
 		return shipper;
 	}
-	
+
 	public static void main(String[] args) throws JSONException {
-	//	System.out.println("cần thơ");
-
-		// SelectShipper sp = new SelectShipper("58e1ec69dd675e2460216c88");
-		// sp.start();
-
-		//SelectShipper s = new SelectShipper("58eb94c10f2ec10fb2acb94d");
-		//s.start();
-		JSONArray order= new OrderModel().searchOrder("shipper");
-		for (int i=0; i<order.length();i++){
-			System.out.println(order);
-		}
-		//float f = Float.parseFloat(orderModel.getPriceOrder("58f0d6589fd5a3250893c42c"));
-		//boolean f = orderModel.updateShipper("58f0e4589fd5a32508268485", "11111");
-		System.out.println(new Date());
+		OrderModel od = new OrderModel();
+		// DBCursor cursor = od.queryAllOrderOfProducer("012");
+		// while (cursor.hasNext()){
+		System.out.println(od.deleteShipper("58f0e64c9fd5a3250852a1f0", "11111"));
+		// }
 	}
 
 }
