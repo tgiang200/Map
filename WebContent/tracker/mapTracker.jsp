@@ -76,8 +76,8 @@ body {
 				mapTypeId : 'terrain'
 			});
 
-			addMarker(pcenter, iconPosition, null, lngCenter.lat() + "<br>"
-					+ latCenter.lng());
+			addMarker(pcenter, iconPosition, null, lngCenter.lat + "<br>"
+					+ latCenter.lng);
 			
 			// This event listener will call addMarker() when the map is clicked.
 			map.addListener('click', function(event) {

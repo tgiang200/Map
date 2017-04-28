@@ -1,5 +1,6 @@
 package control.login;
 
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -11,11 +12,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.json.JSONArray;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
+import control.api.ApiModel;
 import mongo.database.ConnectMongo;
 
 public class LoginModel {
@@ -114,6 +118,31 @@ public class LoginModel {
 		return result;
 	}
 	
+	
+
+	public boolean verifyPhone(String phone, String userType){
+		boolean result = false;
+		BasicDBObject obj = new BasicDBObject();
+		obj.put("phone", phone);
+		if (userType.equals("producer")){
+			DBCollection cp = new ConnectMongo().connect("producer");
+			DBCursor cursor = cp.find(obj);
+			if (cursor.hasNext()){
+				result = true;
+			}
+		}
+		
+		if (userType.equals("shipper")){
+			DBCollection cs = new ConnectMongo().connect("shipper");
+			DBCursor cursor = cs.find(obj);
+			if (cursor.hasNext()){
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
 	public boolean updatePassword(String phone, String newPassword, String userType){
 		boolean result = false;
 		BasicDBObject newDocument = new BasicDBObject();
@@ -135,11 +164,38 @@ public class LoginModel {
 		}
 		return result;
 	}
+	
+	public void sendPasswordToSMS(String phone, String password){
+		String url = "http://localhost:18080/SendMessage/sms/sendSMS/phone="+phone+"&password="+password;
+		try {
+			String respone = new ApiModel().readJsonFromUrlString(url);
+			System.out.println(respone);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public boolean verifySessionCenter(String centerSession){
+		if (centerSession.equals("center")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean verifySessionProducer(String producerSession){
+		if (producerSession.equals("center")||producerSession.equals("producer")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	public static void main(String [] args){
-		//for (int i=0;i<=20;i++){
-			//new LoginModel().sendMail("giangb1304545@student.ctu.edu.vn", "test");
-		//}
-		boolean b = new LoginModel().updatePassword("012", "012", "producer");
-		System.out.println(b);
+		new LoginModel().sendPasswordToSMS("0948937992", "01245678");
+		//System.out.println(b);
 	}
 }

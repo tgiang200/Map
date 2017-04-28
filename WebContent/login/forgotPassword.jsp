@@ -14,7 +14,7 @@
 <h2 style="color:red">Lưu ý phải nhập đúng số điện thoại và email được dùng để đăng kí</h2>
 <div class="form-style-3">
 	<form method="post" name="login" onsubmit="return validateForm()"
-		action="/Map/account/getCode.html">
+		action="/Map/account/getCodePhone.html">
 		<table>
 			<tr>
 				<h2></h2>
@@ -30,10 +30,12 @@
 				<td  style="color: blue; font-weight: bold">Số điện thoại</td>
 				<td><input type="text" name="username"></td>
 			</tr>
+		<!-- 
 			<tr>
 				<td style="color: blue; font-weight: bold">Email</td>
 				<td><input type="text" name="email"></td>
 			</tr>
+		 -->
 			<tr>
 				<td></td>
 				<td><input type="submit" value="Tạo mới mật khẩu" style="font-size: 16px"></td>
@@ -45,7 +47,7 @@
 		</table>
 	</form>
 	</div>
-	<h2>Mật khẩu mới sẽ được gởi đến email của bạn</h2>
+	<h2>Mật khẩu mới sẽ được gởi đến số điện thoại của bạn</h2>
 	</center>
 </body>
 </html>

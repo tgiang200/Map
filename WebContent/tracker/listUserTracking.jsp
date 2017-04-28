@@ -49,7 +49,7 @@ body{
 var list = ${list};
 var link = [];
 for (var i=0; i<list.length; i++){
-	link.push("<a href=\"/Map/tracker/trackUser/username="+list[i].phone+"\">"+list[i]+"</a><br>");
+	link.push("<a href=\"/Map/tracker/trackUser/username="+list[i].phone+"\">"+list[i].phone+"</a><br>");
 }
 document.getElementById("list").innerHTML = link.join("<br>"); 
 

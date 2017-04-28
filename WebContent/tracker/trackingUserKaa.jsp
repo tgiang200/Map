@@ -54,7 +54,7 @@
 		var icon = "/Map/img/blue_gps.png";
 		var iconPosition = "/Map/img/red-location-icon.png";
 		var saltKey = "1234"
-		var salt = getSalt("getAllUser",username,saltKey);
+		var salt = sha1("getUserTrack"+saltKey);
 		//document.write(username+"<br>"+salt);
 		//INIT MAP
 		function initMap() {
@@ -87,7 +87,7 @@
 				//var listObj=${listObj};
 				deleteMarkers();
 				line.setMap(null);
-				$.getJSON('http://'+self.location.host+'/Map/apiKaa/getUserTrack/'+username,
+				$.getJSON('http://'+self.location.host+'/Map/apiKaa/getUserTrack/'+username+'/'+salt,
 						function(data) {
 							listObj = data;
 							var locationObj = []; 

@@ -12,7 +12,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="/Map/img/tracker.png" />
 <title>Tracking</title>
 <link href="/Map/css/mapCSS.css" rel="stylesheet">
-<script src="/Map/function/function.js" /></script>
+<script src="/Map/function/function.js" charset="UTF-8"/></script>
 <script src="/Map/function/Sha1Digest.js" /></script>
 <style>
 body {
@@ -37,6 +37,7 @@ body {
 	
 		//document.write(username+"<br>"+salt);
 		//INIT MAP
+		
 		var iconPosition = "/Map/img/red-location-icon.png";
 		function initMap() {
 			var center = {lat: ${lat}, lng: ${lng} };
@@ -46,7 +47,7 @@ body {
 				center : center,
 				mapTypeId : 'terrain'
 			});
-			addMarker(center, iconPosition, null, "You are here");
+			addMarker(center, iconPosition, "here", "You are here");
 			// This event listener will call addMarker() when the map is clicked.
 			map.addListener('click', function(event) {
 				addMarker(event.latLng, iconPosition, null, event.latLng.lat() + "<br>"
@@ -61,6 +62,5 @@ body {
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD33TSkbvpSLniSl4eN-j75TpyLHvIj9uQ&libraries=places&callback=initMap">		
 	</script>
-	
 </body>
 </html>

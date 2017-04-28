@@ -33,8 +33,9 @@ function validateForm() {
     var idCard = document.forms["register"]["idCard"].value;
     var phone = document.forms["register"]["phone"].value;
     var vehicle = document.forms["register"]["vehicle"].value;
-	var password = document.forms["register"]["password"].value;
-    var rePassword = document.forms["register"]["rePassword"].value;
+    //var dateOfBirth = document.forms["register"]["dateOfBirth"].value;
+	//var password = document.forms["register"]["password"].value;
+    //var rePassword = document.forms["register"]["rePassword"].value;
     
     if (phone == "") {
     	document.getElementById("message").innerHTML = "Số điện thoại không được trống";
@@ -43,7 +44,7 @@ function validateForm() {
     	if (!validatePhone(phone)){
     		document.getElementById("message").innerHTML = "Số điện thoại không hợp lệ";
             return false;
-    	}
+    	} 
     }
    	
     if (fullname=="") {
@@ -65,6 +66,29 @@ function validateForm() {
     if (password != rePassword) {
     	document.getElementById("message").innerHTML = "Mật khẩu không trùng khớp";
         return false;
+    }
+    
+    //if (dateOfBirth == "") {
+    	//document.getElementById("message").innerHTML = "Ngày sinh không được trống";
+      //  return false;
+    //}
+    
+    //if (!checkDate(dateOfBirth)){
+    	//document.getElementById("message").innerHTML = "Ngày sinh không hợp lệ";
+        //return false;    	
+    //}
+   
+     
+    function checkDate(strDate) {
+        var comp = strDate.split('/')
+        var d = parseInt(comp[0], 10)
+        var m = parseInt(comp[1], 10)
+        var y = parseInt(comp[2], 10)
+        var date = new Date(y,m-1,d);
+        if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
+          return true
+        }
+        return false
     }
     
     //if (vehicle == "") {
@@ -145,7 +169,7 @@ function haveAccount(){
 			</tr>
 			<tr>
 				<td>Ngày sinh</td>
-				<td><input type="date" name="dateOfBirth"> *</td>
+				<td><input type="date" name="dateOfBirth"> </td>
 			</tr>
 			<tr>
 				<td>Phương tiện vận chuyển</td>
@@ -165,6 +189,7 @@ function haveAccount(){
 				<td>Biển số</td>
 				<td><input type="text" name="vehicleNumber"></td>
 			</tr>
+		<!--
 			<tr>
 				<td>Mật khẩu</td>
 				<td><input type="password" name="password"> *</td>
@@ -173,7 +198,7 @@ function haveAccount(){
 				<td>Nhập lại mật khẩu</td>
 				<td><input type="password" name="rePassword"> *</td>
 			</tr>
-
+		-->
 			<tr>
 				<td></td>
 				<td><input type="submit" value="Register"> 

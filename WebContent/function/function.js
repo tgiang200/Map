@@ -16,7 +16,11 @@ function addMarker(location, iconUrl, label, info) {
 			},
 			url : iconUrl
 		},
-		label : label,
+		label : {
+		    text: label,
+		    color: 'blue',
+		    fontWeight: 'bold',
+		  },
 		draggable : true
 	});
 	markers.push(marker);

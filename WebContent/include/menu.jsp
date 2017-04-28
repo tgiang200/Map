@@ -29,7 +29,6 @@
 </head>
 <body>
 
-
 	<!-- nenu -->
 	<nav class="navbar navbar-inverse navbar-fixed-top"> <%
  	if (session.getAttribute("username") == null) {
@@ -97,7 +96,9 @@
 					<ul class="dropdown-menu">
 						<li><a href="/Map/shipper/listConfirm.html">Shipper chờ duyệt</a></li>
 						<li><a href="/Map/shipper/listShipperConfirmed.html">Shipper đã duyệt</a></li>
+						<li><a href="/Map/shipper/addFundsForm.html">Thêm quỹ cho shipper</a></li>
 					</ul></li>
+				<li><a href="http://localhost:8080/Map/call/callPage.html">Call & SMS</a></li>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -112,12 +113,7 @@
 					</div>
 				</li>
 				<li></li>
-				<li><a
-					href="/Map/user/<%out.print(session.getAttribute("username"));%>/">
-						<%
-							out.print(session.getAttribute("username"));
-						%>
-				</a></li>
+				<li><a href="/Map/user/userType=center&username=<%out.print(session.getAttribute("username"));%>/"><%out.print(session.getAttribute("username"));%></a></li>
 				<li><a href="/Map/account/logout.html">Đăng xuất</a></li>
 			</ul>
 		</div>

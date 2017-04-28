@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
+encoding//WebContent/communication-api/demo.jsp=UTF-8
 encoding//WebContent/errorpage/error404.jsp=UTF-8
+encoding//WebContent/shipper/addFunds.jsp=UTF-8
 encoding//src/control/login/LoginControl.java=UTF-8
 encoding//src/control/order/OrderControl.java=UTF-8
 encoding//src/control/order/OrderModel.java=UTF-8

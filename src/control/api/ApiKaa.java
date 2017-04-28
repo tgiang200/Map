@@ -1,6 +1,7 @@
 package control.api;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,18 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ApiKaa {
 
 	// API tra ve danh sach cac user va vi tri trong csdl
-	@RequestMapping(value = "/getUserTrack/{username}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getUserTrack/{username}/{salt}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> getUserTrack(Model model, HttpSession session, HttpServletRequest request,
-			@PathVariable String username) {
+			@PathVariable String username, @PathVariable String salt) throws NoSuchAlgorithmException {
 		
-		
-		// Goi ham getUser tu model: getUserKaaApi() || getUserKaa()
-		JSONArray jsonArray = new ApiModel().getUserKaa(username);
-		
-		
-		// List<DBObject> list = db.toArray();
-		String str = jsonArray.toString();
+		String verify = new Sha1Digest().sha1("getUserTrack"+"1234");
+		String str;
+		if (verify.equals(salt)){
+			// Goi ham getUser tu model: getUserKaaApi() || getUserKaa()
+			JSONArray jsonArray = new ApiModel().getUserKaa(username);
+			// List<DBObject> list = db.toArray();
+			str = jsonArray.toString();
+		} else {
+			str= null;
+		}
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 

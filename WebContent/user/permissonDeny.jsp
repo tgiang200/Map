@@ -59,7 +59,7 @@ button{
     font-size: 20px;
 }
 </style>
-<title>404 Not found</title>
+<title>Permission deny</title>
 </head>
 <body style="background-color: #ffff60">
 
@@ -71,7 +71,7 @@ button{
 			<span class="close">&times;</span>
 			<p>
 				<center>
-					<h1 style="color:red">Không tìm thấy trang bạn yêu cầu</h1>
+					<h1 style="color:red">Bạn không có quyền truy cập trang này</h1>
 					<button id="redirect" onclick="redirect()">Trở về trang chủ</button>
 				</center>
 			</p>

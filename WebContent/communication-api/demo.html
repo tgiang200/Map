@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test 2</title>
+        <script src="jquery-1.7.2.min.js" charset="utf-8"></script>
+        <script src="param.js" charset="utf-8"></script>
+        <script src="api/SIPml-api.js" charset="utf-8"></script>
+        <script src="api/chat-api.js" charset="utf-8"></script>
+        <script src="demo.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <input id="txt-sipAccount" type="text" value="cqm">
+        <input id="txt-password" type="text" value="cqmcqm">
+        <input id="txt-serverAddr" type="text" value="192.168.201.200">
+        <input id="btn-login" type="button" value="Login">
+        <input id="btn-logout" type="button" value="Logout">
+
+        <input id="btn-call" type="button" value="Call">
+        <input id="btn-hangup" type="button" value="Hangup">
+        <input id="btn-answer" type="button" value="Answer">
+        <input id="btn-reject" type="button" value="Reject">
+
+        <p>Status: <i><span id="status"></span></i></p>
+
+        <h3>MESSENGER</h3>
+        <div id="msgContainer">
+            <div id="messageView">
+
+            </div>
+            <input type="text" id="txt-sendTo" value="sip:cqm@192.168.201.200"><br><br>
+            <textarea id="txtMessage" rows="4" cols="30"></textarea><br>
+            <input id="btn-send" type="button" value="Send Message">
+        </div>
+
+        <!-- Audio here -->
+        <audio id="audio_remote" autoplay="autoplay" />
+        <audio id="ringtone" loop src="api/sounds/ringtone.wav"> </audio>
+        <audio id="ringbacktone" loop src="api/sounds/ringbacktone.wav"> </audio>
+        <audio id="dtmfTone" src="api/sounds/dtmf.wav"> </audio>
+
+
+    </body>
+</html>

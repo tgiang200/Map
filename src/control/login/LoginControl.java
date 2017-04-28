@@ -53,6 +53,7 @@ public class LoginControl {
 		if (resultLogin) {
 			session.setAttribute("username", username);
 			session.setAttribute("userType", userType);
+			session.setAttribute("password", password);
 			return "login/loginSuccess";
 		} else {
 			model.addAttribute("message","<script>alert(\"Tài khoản hoặc mật khẩu không chính xác\");</script>");
@@ -99,8 +100,8 @@ public class LoginControl {
 		return "login/forgotPassword";
 	}
 	// tạo code
-	@RequestMapping(value="/getCode")
-	public String getCode(Model model, HttpServletRequest request){
+	@RequestMapping(value="/getCodeEmail")
+	public String getCodeEmail(Model model, HttpServletRequest request){
 		LoginModel loginModel = new LoginModel();
 		String phone = request.getParameter("username");
 		String email = request.getParameter("email");
@@ -113,6 +114,27 @@ public class LoginControl {
 			//loginModel.insertCode(phone, code);
 			boolean updatePassword = loginModel.updatePassword(phone, code, userType);
 			model.addAttribute("result", "Mật khẩu mới đã được gởi đến email của bạn");
+			//model.addAttribute("phone", phone);
+		} else {
+			model.addAttribute("result", "Thông tin tài khoảng không chính xác");
+		}
+		return "login/resultGetNewPassword";
+	}
+	
+	@RequestMapping(value="/getCodePhone")
+	public String getCodePhone(Model model, HttpServletRequest request){
+		LoginModel loginModel = new LoginModel();
+		String phone = request.getParameter("username");
+		//String email = request.getParameter("email");
+		String userType = request.getParameter("userType");
+		//Kiem tra thong tin tai khoan co hop le hay khong
+		boolean acc = loginModel.verifyPhone(phone, userType);
+		if (acc){
+			String code = loginModel.createCode();
+			boolean sendMail = new SendSMS().sendPasswordToSMS(phone, code);
+			//loginModel.insertCode(phone, code);
+			boolean updatePassword = loginModel.updatePassword(phone, code, userType);
+			model.addAttribute("result", "Mật khẩu mới đã được gởi đến số điện thoại của bạn");
 			//model.addAttribute("phone", phone);
 		} else {
 			model.addAttribute("result", "Thông tin tài khoảng không chính xác");

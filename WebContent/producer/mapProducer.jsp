@@ -61,7 +61,8 @@ body {
 		var iconProducer = "/Map/img/producer.png";
 		var username = "${username}";
 		var saltKey = "1234"
-		var salt = getSalt("getAllUser",username,saltKey);
+		//var salt = getSalt("getAllUser",saltKey);
+		var salt = sha1("getAllUser"+saltKey);
 		//document.write(username+"<br>"+salt);
 		//INIT MAP
 		function initMap() {
@@ -83,7 +84,7 @@ body {
 			
 			var listObj={};
 			function start() {				
-				$.getJSON('http://'+self.location.host+'/Map/producer/getAllProducer/',
+				$.getJSON('http://'+self.location.host+'/Map/producer/getAllProducer/'+salt,
 						function(data) {
 							listObj = data;
 							for (var i=0; i<listObj.length; i++){

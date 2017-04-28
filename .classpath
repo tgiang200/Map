@@ -22,5 +22,24 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.jdbc-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.web-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.web.servlet-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/admin-rest-client-0.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/common-2.1.0-20161110.164219-1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/dto-0.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/httpclient-4.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/logback-classic-1.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/logback-core-1.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/org-apache-commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/spring-beans-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/spring-core-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/spring-web-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/utils-0.10.0-20160606.112348-1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/sun.misc.BASE64Decoder.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/twilio-7.9.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/twilio-java-sdk-3.4.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/logback-classic-0.9.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

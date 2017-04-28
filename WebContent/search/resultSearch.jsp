@@ -98,7 +98,7 @@
 	document.write("<table>");
 	document.write("<th class=\"title\" colspan=\"7\"><center><h2>Kết quả tìm kiếm theo order</h2></center></th>");
 	document.write("<tr><th><center>Producer</center></th>");
-	document.write("<th><center>Địa chỉ Producer</center></th>")
+	document.write("<th><center>Producer</center></th>")
 	document.write("<th><center>Loại hàng</center></th>");;
 	document.write("<th><center>Địa chỉ người nhận</center></th>");
 	document.write("<th><center>SĐT người nhận</center></th>");
@@ -108,8 +108,8 @@
 	for (var i=0; i<info3.length; i++){
 		//if (info[i].statusConfirm=="waiting"){
 			document.write("<tr>");
+			document.write("<td>"+info3[i]._id.$oid+"</td>");
 			document.write("<td>"+info3[i].producer.fullname+"</td>");
-			document.write("<td>"+info3[i].producer.address+"</td>");
 			document.write("<td>"+info3[i].type+"</td>");
 			document.write("<td>"+info3[i].customerAddress+"</td>");
 			document.write("<td>"+info3[i].customerPhone+"</td>");

@@ -30,11 +30,8 @@ public class User {
 	@RequestMapping(value="/userType={userType}&username={username}")
 	public String infoUser(Model model, @PathVariable String username,@PathVariable String userType) throws JSONException{
 		if (userType.equals("center")){
-			DBCursor cursor= new TrackerModelMongoDB().queryUser(username);
-			List<DBObject> list = cursor.toArray();
-			String str = list.toString();
-			model.addAttribute("user", str);
-			return "user/infoUser";
+			model.addAttribute("user", username);
+			return "user/infoCenter";
 		}
 		if (userType.equals("producer")){
 			DBCursor cursor= new ProducerModel().queryProducer(username);
@@ -87,7 +84,7 @@ public class User {
 		model.addAttribute("producer", prodcuer.toString());
 		model.addAttribute("shipper", shipper.toString());
 		model.addAttribute("order", order.toString());
-		
+		System.out.println(order);
 		return "search/resultSearch";
 	}
 	

@@ -58,14 +58,16 @@ td, th{
 		document.write("<td>"+info[i].phone+"</td></tr>");
 		document.write("<tr><td>Email</td>");
 		document.write("<td>"+info[i].email+"</td></tr>");
+		document.write("<tr><td>Ngày sinh</td>");
+		document.write("<td>"+info[i].dateOfBirth+"</td></tr>");
 		document.write("<tr><td>Facebook</td>");
 		document.write("<td>"+info[i].facebook+"</td></tr>");
 		document.write("<tr><td>Phương tiện</td>");
 		document.write("<td>"+info[i].vehicle+"</td></tr>");
 		document.write("<tr><td>Biển số</td>");
 		document.write("<td>"+info[i].vehicleNumber+"</td></tr>");
-		//document.write("<tr><td>Qũy còn lại</td>");
-		//document.write("<td>"+info[i].funds+"</td></tr>");
+		document.write("<tr><td>Qũy còn lại</td>");
+		document.write("<td>"+info[i].funds+"</td></tr>");
 		document.write("</table><br>");
 		
 		document.write("<center>");

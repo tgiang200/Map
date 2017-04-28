@@ -1,0 +1,17 @@
+{
+  "ecmaVersion": 6,
+  "libs": [
+    "browser",
+    "jquery"
+  ],
+  "loadEagerly": [
+    "/media/cqm/DATA/Luan-Van/Comunication/communication-api-v2/api/SIPml-api.js",
+    "/media/cqm/DATA/Luan-Van/Comunication/communication-api-v2/jquery-1.7.2.min.js"
+  ],
+  "dontLoad": [
+    "node_module/**"
+  ],
+  "plugins": {
+    "doc_comment": true
+  }
+}

@@ -17,21 +17,13 @@
 			//	document.write("data"+data);
 			//});
 
-		$.getJSON('http://localhost:8080/Map/api/login/userType=producer&username=0123&password=abc',
+		$.getJSON('https://192.168.1.13:8443/Map/api/login/userType=producer&username=0123&password=abc',
 				function(data) {
 					listObj = data;
 					//return data;
-					//document.write(listObj.result);
+					document.write(listObj.result);
 				}
 		);
-	 const makeRequest = async () => {
-		  data = await getJSON();
-		  //document.write(listObj.result);
-		  return data;
-		}
-	var done = makeRequest();
-	document.write(done.result);
-	document.write(String(done));
 </script>
 </body>
 </html>

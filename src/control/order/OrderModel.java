@@ -7,6 +7,7 @@ import org.hibernate.mapping.Collection;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -15,6 +16,9 @@ import com.mongodb.DuplicateKeyException;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import mongo.database.ConnectMongo;
 
 public class OrderModel {
@@ -55,9 +59,18 @@ public class OrderModel {
 	// tim kim order theo keyword
 	public JSONArray searchOrder(String keyword) {
 		JSONArray array = new JSONArray();
+		JSONObject object = new JSONObject();
 		DBCursor cursor = collectionOrder.find(new BasicDBObject("$text", new BasicDBObject("$search", keyword)));
 		while (cursor.hasNext()) {
-			array.put(cursor.next());
+			try {
+				object = new JSONObject(cursor.next().toString());
+				array.put(object);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//System.out.println(cursor.next());
 		}
 		return array;
 	}
@@ -298,13 +311,34 @@ public class OrderModel {
 		}
 		return shipper;
 	}
-
+	
+	public JSONArray getShipperOfProducer(String producerID) throws JSONException{
+		JSONArray array =  new JSONArray();
+		JSONObject shipper = new JSONObject();
+		BasicDBObject query =  new BasicDBObject();
+		BasicDBObject in = new BasicDBObject();
+		String [] status = {"transporting", "transported", "completed"};
+		query.put("producer.phone", producerID);
+		in.put("$in", status);
+		query.put("status", in);
+		DBCursor cursor = collectionOrder.find(query);
+		while (cursor.hasNext()){
+			shipper = new JSONObject(cursor.next().get("shipper").toString());
+			array.put(shipper);
+		}
+		return array;
+	}
 	public static void main(String[] args) throws JSONException {
 		OrderModel od = new OrderModel();
-		// DBCursor cursor = od.queryAllOrderOfProducer("012");
-		// while (cursor.hasNext()){
-		System.out.println(od.deleteShipper("58f0e64c9fd5a3250852a1f0", "11111"));
-		// }
+//		// DBCursor cursor = od.queryAllOrderOfProducer("012");
+//		// while (cursor.hasNext()){
+//		//System.out.println(od.deleteShipper("58f0e64c9fd5a3250852a1f0", "11111"));
+//		// }
+		JSONArray array = new OrderModel().searchOrder("shipper");
+		for (int i=0; i<array.length(); i++){
+			System.out.println(array.getJSONObject(i));
+		}
+		
 	}
 
 }

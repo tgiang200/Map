@@ -45,8 +45,8 @@ input[type=button]{
 </style>
 <script>
 function validateForm() {
-    var password = document.forms["register"]["password"].value;
-    var rePassword = document.forms["register"]["rePassword"].value;
+    //var password = document.forms["register"]["password"].value;
+    //var rePassword = document.forms["register"]["rePassword"].value;
     var fullname = document.forms["register"]["fullname"].value;
     var address = document.forms["register"]["address"].value;
     var idCard = document.forms["register"]["idCard"].value;
@@ -54,7 +54,17 @@ function validateForm() {
     var email = document.forms["register"]["email"].value;
     var lat = document.forms["register"]["lat"].value;
     var lng = document.forms["register"]["lng"].value;
-   	
+	
+    if (phone == "") {
+    	document.getElementById("message").innerHTML = "Số điện thoại không được trống";
+        return false;
+    } else {
+    	if (!validatePhone(phone)){
+    		document.getElementById("message").innerHTML = "Số điện thoại không hợp lệ";
+            return false;
+    	}
+    }
+    
     if (fullname=="") {
     	document.getElementById("message").innerHTML = "Họ tên không được trống";
         return false;
@@ -68,23 +78,15 @@ function validateForm() {
         return false;
     }
        
-    if (password == "") {
+    /*if (password == "") {
     	document.getElementById("message").innerHTML = "Mật khẩu không được trống";
         return false;
     }
     if (password != rePassword) {
     	document.getElementById("message").innerHTML = "Mật khẩu không trùng khớp";
         return false;
-    }
-    if (phone == "") {
-    	document.getElementById("message").innerHTML = "Số điện thoại không được trống";
-        return false;
-    } else {
-    	if (!validatePhone(phone)){
-    		document.getElementById("message").innerHTML = "Số điện thoại không hợp lệ";
-            return false;
-    	}
-    }
+    }*/
+
     if (lat == "" || lng =="") {
     	document.getElementById("message").innerHTML = "Chưa lấy được vị trí, vui lòng bật chia sẽ vị trí và thử lại";
         return false;
@@ -165,6 +167,10 @@ function haveAccount(){
 				</td>
 			</tr>
 			<tr>
+				<td>Số điện thoại</td>
+				<td><input type="text" name="phone"> *</td>
+			</tr>
+			<tr>
 				<td>Email</td>
 				<td><input type="text" name="email"> *</td>
 			</tr>
@@ -185,10 +191,6 @@ function haveAccount(){
 				<td><input type="text" name="storeName"> *</td>
 			</tr>
 			<tr>
-				<td>Số điện thoại</td>
-				<td><input type="text" name="phone"> *</td>
-			</tr>
-			<tr>
 				<td>Facebook</td>
 				<td><input type="text" name="facebook"></td>
 			</tr>
@@ -196,14 +198,14 @@ function haveAccount(){
 				<td>Lĩnh vực kinh doanh</td>
 				<td><input type="text" name="businessType"></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>Mật khẩu</td>
 				<td><input type="password" name="password"> *</td>
 			</tr>
 			<tr>
 				<td>Nhập lại mật khẩu</td>
 				<td><input type="password" name="rePassword"> *</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>Latitude</td>
 				<td><input type="text" name="lat" value =""></td>

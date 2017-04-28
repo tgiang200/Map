@@ -1,5 +1,8 @@
 package control.producer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,17 +114,4 @@ public class ProducerModel {
 		return array;
 	}
 	
-	public static void main(String [] args) throws JSONException{
-		ProducerModel pm = new ProducerModel();
-		//new ProducerModel().updateStatusProducer("12345","waiting");
-//		while (cursor.hasNext()){
-//			//BasicDBObject obj = (BasicDBObject) (cursor.next().get("_id"));
-//			System.out.println(cursor.next()); 
-//		}
-		JSONArray array = pm.searchProducer("abc");
-//		for (int i=0; i<array.length(); i++){
-//			System.out.println(array.getJSONObject(i).toString());
-//		}
-//		System.out.println("complete");
-	}
 }

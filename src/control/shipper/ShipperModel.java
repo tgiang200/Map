@@ -1,6 +1,13 @@
 package control.shipper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,15 +135,29 @@ public class ShipperModel {
 		return result;
 	}
 
-	public void logChangeFunds(String shipper, String time, float value) {
+	public void logChangeFunds(String user, String shipper, String time, double value) {
 		DBCollection col = new ConnectMongo().connect("logChangeFunds");
 		BasicDBObject log = new BasicDBObject();
+		log.put("user", user);
 		log.put("ShipperID", shipper);
 		log.put("time", time);
 		log.put("value", value);
 		col.insert(log);
 	}
 
+	public boolean addFundsOfShipper(String idShipper, double fundsAdd, HttpSession session){
+		boolean result = false;
+		ShipperModel sm = new ShipperModel();
+		String currentFunds = sm.getCurrentFunds(idShipper);
+		double newFunds = Double.parseDouble(currentFunds) + fundsAdd;
+		//Ghi log
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		String time = dateFormat.format(date).toString();
+		new ShipperModel().logChangeFunds(session.getAttribute("username").toString(),idShipper, time, fundsAdd);
+		result = sm.updateFunds(idShipper, newFunds+"");
+		return result;
+	}
 	// tim kim shipper theo keyword
 	public JSONArray searchShipper(String keyword) {
 		JSONArray array = new JSONArray();
@@ -146,11 +167,11 @@ public class ShipperModel {
 		}
 		return array;
 	}
-
+	
 	public static void main(String[] args) {
 		ShipperModel sm = new ShipperModel();
 		String date = new Date().toString();
-		sm.logChangeFunds("1111", date, -20);
+		sm.logChangeFunds("test","1111", date, -20);
 		// System.out.println(up);
 	}
 }

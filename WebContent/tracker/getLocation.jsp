@@ -83,17 +83,28 @@ body {
 
 			document.getElementsByTagName('body')[0].appendChild(f);
 			*/
-			x.innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat="+lat+"&lng="+lng+"\">Accept</a></h2>"
+
+
 							+"<h2><a href=\"/Map/tracker/mapLocation.html?lat=10.029752243559091&lng=105.76988697052002\">Cancel</a></h2>");
 			//x.innerHTML = lat+"-"+lng;
 		}
+		
 		function getLocation() {
 			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(showPosition);
+				navigator.geolocation.getCurrentPosition(getSuccess);
 				
 			} else {
 				x.innerHTML = "Geolocation is not supported by this browser.";
 			}
+		}
+		
+		function getSuccess(location){
+			//xử lý tọa độ nhận được
+			var lat = location.coords.latitude;
+			var lng = location.coords.longitude;
+			//chuyển kết quả đến controller để hiển thị bản đồ
+			x.innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat="+lat+"&lng="+lng+"\">"+
+							"Chia sẽ vị trí</a></h2>");
 		}
 		getLocation();
 
