@@ -133,7 +133,7 @@ public class OrderControl {
 			boolean result = new OrderModel().insertOrder(order);
 			if (result) {
 				respone.put("result", "success");
-				respone.put("result", "created");
+				respone.put("message", "created");
 			} else {
 				respone.put("result", "failed");
 				respone.put("message", "failed");
@@ -369,5 +369,16 @@ public class OrderControl {
 		String listOrder = list.toString();
 		model.addAttribute("listOrder", listOrder);
 		return "order/allOrderOfProducer";
+	}
+	
+	//API get order of producer
+	@RequestMapping(value = "api/orderOfProducer/producer={idProducer}")
+	@ResponseBody
+	public ResponseEntity<String> orderOfProducerAPI(Model model, @PathVariable String idProducer) {
+		DBCursor cursor = new OrderModel().queryAllOrderOfProducer(idProducer);
+		List<DBObject> list = cursor.toArray();
+		String listOrder = list.toString();
+		//model.addAttribute("listOrder", listOrder);
+		return new ResponseEntity<String>(listOrder, HttpStatus.OK);
 	}
 }

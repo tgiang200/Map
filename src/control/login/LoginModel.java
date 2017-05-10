@@ -12,7 +12,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -194,8 +197,37 @@ public class LoginModel {
 	}
 	
 	
+	public JSONObject getAccountSIP() throws JSONException{
+		JSONObject SIPAcc = new JSONObject();
+		DBCollection collectionSIP = new ConnectMongo().connect("SIPAccount");
+		DBCursor cursor = collectionSIP.find();
+		while (cursor.hasNext()){
+			SIPAcc = new JSONObject(cursor.next().toString());
+			String status = SIPAcc.getString("status");
+			String account = SIPAcc.getString("account");
+			if (status.equals("false")){				
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("status", "true")); 
+				BasicDBObject searchQuery = new BasicDBObject().append("account", account);
+				WriteResult writeResult = collectionSIP.update(searchQuery, newDocument);
+				break;
+			} else {
+				SIPAcc.put("account", "null");
+				SIPAcc.put("password", "null");
+				SIPAcc.put("status", "null");
+			}
+		}
+		return SIPAcc;
+	}
+	
 	public static void main(String [] args){
-		new LoginModel().sendPasswordToSMS("0948937992", "01245678");
+		try {
+			JSONObject acc = new LoginModel().getAccountSIP();
+			System.out.println(acc);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//System.out.println(b);
 	}
 }

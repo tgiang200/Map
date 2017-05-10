@@ -47,7 +47,8 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="/Map/homepage.html"><script>
-				document.write(self.location.host)
+				//document.write(self.location.host)
+				document.write("<img src=\"/Map/img/trackingShipper.png\" alt=\"Search\" height=\"25\" width=\"25\" >")
 			</script></a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
@@ -60,7 +61,7 @@
 					aria-expanded="false">Tracking<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/Map/producer/mapProducer.html">Producer</a></li>
-						<li><a href="#">Shipper Onwork</a></li>
+						<li><a href="/Map/tracker/userOnwork.html">Shipper Onwork</a></li>
 						<li><a href="/Map/tracker/listUserTracking.html">Tracking shipper</a></li>
 						<li role="separator" class="divider"></li>
 						<li class="dropdown-header">Bản đồ</li>

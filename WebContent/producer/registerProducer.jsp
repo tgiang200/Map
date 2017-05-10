@@ -183,6 +183,16 @@ function haveAccount(){
 				<td><input type="text" name="address"> *</td>
 			</tr>
 			<tr>
+				<td>Khu vực</td>
+				<td>
+					<select id="groupId" name="groupId">
+						  <option value="1" selected>Ninh Kiều</option>
+						  <option value="2">Cái Răng</option>
+						  <option value="3">Bình Thủy</option>					
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td>CMND</td>
 				<td><input type="text" name="idCard"> *</td>
 			</tr>

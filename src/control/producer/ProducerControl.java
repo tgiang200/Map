@@ -41,7 +41,7 @@ public class ProducerControl {
 
 	@RequestMapping(value = "/register")
 	public String registerProducer(Model model, HttpServletRequest request, HttpServletResponse respone)
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException, JSONException {
 		request.setCharacterEncoding("UTF-8");
 		String fullName = request.getParameter("fullname");
 		String address = request.getParameter("address");
@@ -55,6 +55,7 @@ public class ProducerControl {
 		String lat = request.getParameter("lat");
 		String lng = request.getParameter("lng");
 		String status = "waiting";
+		String groupID = request.getParameter("groupId");
 
 		// tao password
 		String password = new ApiModel().createCode();
@@ -74,7 +75,13 @@ public class ProducerControl {
 		producer.put("lat", lat);
 		producer.put("lng", lng);
 		producer.put("statusConfirm", status);
-
+		producer.put("groupID", groupID);
+		
+		JSONObject SIP = new LoginModel().getAccountSIP();
+		String SIPAccount = SIP.getString("account");
+		
+		producer.put("SIPAccount", SIPAccount);
+		
 		boolean resultInsert = new ProducerModel().insertProducer(producer);
 		if (resultInsert) {
 			// Goi password bang sms
@@ -95,7 +102,7 @@ public class ProducerControl {
 
 	// API dang ki producer
 	@RequestMapping(value = "/api/registerProducer/phone={phone}&fullname={fullname}&address={address}&idCard={idCard}&"
-			+ "storeName={storeName}&email={email}&facebook={facebook}&businessType={businessType}&password={password}&lat={lat}&lng={lng}", method = RequestMethod.GET, produces = "application/json")
+			+ "storeName={storeName}&email={email}&facebook={facebook}&businessType={businessType}&lat={lat}&lng={lng}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> apiRegister(Model model, HttpServletRequest request, @PathVariable String phone,
 			@PathVariable String fullname, @PathVariable String address, @PathVariable String idCard,
@@ -127,6 +134,11 @@ public class ProducerControl {
 		producer.put("lat", lat);
 		producer.put("lng", lng);
 		producer.put("statusConfirm", status);
+		
+		JSONObject SIP = new LoginModel().getAccountSIP();
+		String SIPAccount = SIP.getString("account");
+		
+		producer.put("SIPAccount", SIPAccount);
 		
 		String password = new ApiModel().createCode();
 		

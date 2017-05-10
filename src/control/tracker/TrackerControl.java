@@ -99,9 +99,6 @@ public class TrackerControl {
 
 	@RequestMapping(value = "/road")
 	public String findRoad(Model model) {
-		model.addAttribute("lat", 10.030901);
-		model.addAttribute("lng", 105.768846);
-		// return "tracker/mapTracker";
 		return "road/findRoad";
 	}
 
@@ -120,6 +117,12 @@ public class TrackerControl {
 		model.addAttribute("lat", 10.030901);
 		model.addAttribute("lng", 105.768846);
 		return "tracker/listUserTracking";
+	}
+	
+	@RequestMapping (value = "/userOnwork")
+	public String userOnwwork(Model model){
+		
+		return "tracker/trackingAllUserKaa";
 	}
 
 	/*

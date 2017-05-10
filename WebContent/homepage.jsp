@@ -34,16 +34,16 @@ try {
         <%@include file="../include/menuShipper.jsp"%>
     </c:when>
     <c:otherwise>
-    	<%@include file="../include/menuShipper.jsp"%>
+    	<%@include file="../include/menuNonUser.jsp"%>
     </c:otherwise>
 </c:choose>
 
  <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <h1>Mạng xã hội vận chuyển hàng hóa</h1>
+        <p>Mạng xã hội vận chuyển hàng hóa là nơi giúp cho việc giao trở nên dễ dàng và đơn giản hơn.</p>
+        <p><a class="btn btn-primary btn-lg" href="/Map/account/loginForm.html" role="button">Đăng nhập &raquo;</a></p>
       </div>
     </div>
 
@@ -51,19 +51,17 @@ try {
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <h2>Producer</h2>
+          <p>Mạng xã hội hàng hóa là ứng dụng giúp cho việc vận chuyển hàng hóa trở nên đơn giản hơn. Các chủ cửa hàng sẽ không phải lo lắng việc tìm shipper cho đơn hàng của mình. Ứng dụng sẽ cung cấp chứa năng tìm shipper. </p>
+          <p><a class="btn btn-default" href="/Map/producer/formRegister.html" role="button">Đăng kí producer &raquo;</a></p>
         </div>
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <h2>Shipper</h2>
+          <p>Mạng xã hội hàng hóa giúp cho shipper có thể tìm được thêm đơn hàng để vận chuyển để tăng thêm thu nhập. Shipper chỉ cần sử dụng một chiếc điện thoại thông minh cái cài đặt ứng dụng, đăng nhập vào hệ thống, bật chế độ onwork và chờ nhận đơn hàng</p>
+          <p><a class="btn btn-default" href="/Map/shipper/formRegister.html" role="button">Đăng kí shipper &raquo;</a></p>
        </div>
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
         </div>
       </div>
 

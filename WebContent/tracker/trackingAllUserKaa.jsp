@@ -9,10 +9,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-<title>Test function</title>
+<title>Tracking</title>
 <link href="/Map/css/mapCSS.css" rel="stylesheet">
 <script src="/Map/function/function.js" /></script>
 <script src="/Map/function/Sha1Digest.js" /></script>
+<link rel="shortcut icon" type="image/x-icon" href="/Map/img/tracker.png" />
 <style>
 body {
 	top: 50px;
@@ -20,6 +21,25 @@ body {
 </style>
 </head>
 <body>
+
+<%
+	String userType = session.getAttribute("userType").toString();
+	pageContext.setAttribute("userType", userType);
+%>
+<c:choose>
+    <c:when test="${userType == 'center'}">
+        <%@include file="../include/menu.jsp"%>
+    </c:when>
+    <c:when test="${userType == 'producer'}">
+        <%@include file="../include/menuProducer.jsp"%>
+    </c:when>
+    <c:when test="${userType == 'shipper'}">
+        <%@include file="../include/menuShipper.jsp"%>
+    </c:when>
+    <c:otherwise>
+    	<%@include file="../include/menuShipper.jsp"%>
+    </c:otherwise>
+</c:choose>
 	
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	<div id="map"></div>
@@ -32,10 +52,11 @@ body {
 		var latCenter = 10.031347535314561; //${lat};
 		var lngCenter = 105.76910376548767; //${lng};
 		var icon = "/Map/img/blue_gps.png";
-		var iconPosition = "/Map/img/shipper.png";
-		var username = "${username}";
+		var iconPosition = "/Map/img/red-location-icon.png";
+		var iconShipper = "/Map/img/shipper.png";
+		//var username = "${username}";
 		var saltKey = "1234"
-		var salt = getSalt("getAllUser",username,saltKey);
+		var salt = sha1("getAllUser"+saltKey);
 		//document.write(username+"<br>"+salt);
 		//INIT MAP
 		function initMap() {
@@ -52,7 +73,7 @@ body {
 
 			// This event listener will call addMarker() when the map is clicked.
 			map.addListener('click', function(event) {
-				addMarker(event.latLng, iconPosition, null, event.latLng.lat() + "<br>"
+				addMarker(event.latLng, iconPosition, "location", event.latLng.lat() + "<br>"
 						+ event.latLng.lng());
 			});
 
@@ -65,18 +86,19 @@ body {
 				//var listObj=${listObj};
 				deleteMarkers();
 				
-				$.getJSON('http://'+self.location.host+'/Map/apiKaa/geAlltUserTrack',
+				$.getJSON('http://'+self.location.host+'/Map/apiKaa/getAlltUserTrack/'+salt,
 						function(data) {
 							listObj = data;
 							for (var i=0; i<listObj.length; i++){
-								var nameObj = listObj[i].event.userName;
+								var nameObj = listObj[i].event.username;
 								var latObj = parseFloat(listObj[i].event.lat);
 								var lngObj = parseFloat(listObj[i].event.lng);
 								var locationObj = {
 										lat : latObj,
 										lng : lngObj
 									};
-								addMarker(locationObj, icon , nameObj+"", nameObj+"");
+								addMarker(locationObj, iconShipper , nameObj+"", "<a href=\"/Map/tracker/trackUser/username="+nameObj+"\">"+nameObj+"</a><br>"+
+										"<input type=\"button\" value=\"Tracking\" onclick=\"tracking("+nameObj+","+salt+")\" />");
 							}
 					});
 					
@@ -89,6 +111,34 @@ body {
 
 		}
 
+		function tracking(username, salt){
+			$.getJSON('http://'+self.location.host+'/Map/apiKaa/getUserTrack/'+username+'/'+salt,
+					function(data) {
+						listObj = data;
+						var locationObj = []; 
+						for (var i=0; i<listObj.length; i++){
+							var nameObj = listObj[i].event.username;
+							//document.write("name: "+nameObj);
+							var latObj = parseFloat(listObj[i].event.lat);
+							var lngObj = parseFloat(listObj[i].event.lng);
+							locationObj[i] = {
+										lat : latObj,
+										lng : lngObj
+								};
+							
+						}
+						line = new google.maps.Polyline({
+							path : locationObj,
+							strokeColor : "#FF0000",
+							strokeOpacity : 1.0,
+							strokeWeight : 3,
+							map : map
+						});
+						
+						//addMarker(locationObj[locationObj.length-1], iconShipper , nameObj+"", nameObj+"");
+					});
+
+		}
 	</script>
 
 	<script

@@ -114,4 +114,12 @@ public class ProducerModel {
 		return array;
 	}
 	
+	public static void main(String args[]){
+		DBCursor cursor = new ProducerModel().queryProducer("0123");
+		while(cursor.hasNext()){
+			System.out.println(cursor.next());
+			//JSONObject obj = new JSONObject (cursor.next());
+		}
+	}
+	
 }

@@ -20,6 +20,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import control.order.OrderModel;
+import control.producer.ProducerModel;
 import control.shipper.ShipperModel;
 import control.tracker.TrackerModelMongoDB;
 
@@ -27,7 +28,7 @@ import control.tracker.TrackerModelMongoDB;
 @RequestMapping(value = "/api")
 public class Api {
 
-	// API dang nhap
+	// API đăng nhập
 	@RequestMapping(value = "/login/userType={user}&username={username}&password={password}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> login(Model model, @PathVariable String user, @PathVariable String username,
@@ -36,27 +37,39 @@ public class Api {
 		String userType = user;
 		boolean resultLogin = false;
 		ApiModel ap = new ApiModel();
+		JSONObject userObject = new JSONObject();
 		if (userType.equals("center")) {
 			resultLogin = ap.login(username, password);
 		}
 		if (userType.equals("producer")) {
 			resultLogin = ap.loginProducer(username, password);
+			if (resultLogin){
+				DBCursor cursor = new ProducerModel().queryProducer(username);
+				userObject = new JSONObject(cursor.next().toString());
+			}
 		}
 		if (userType.equals("shipper")) {
 			resultLogin = ap.loginShipper(username, password);
+			if (resultLogin){
+				DBCursor cursor = new ShipperModel().queryShipper(username);
+				userObject = new JSONObject(cursor.next().toString());
+			}
 		}
 		// tao doi tuong json luu ket qua tra ve cho client
 		JSONObject obj = new JSONObject();
-
 		if (resultLogin) {
 			session.setAttribute("username", username);
 			session.setAttribute("userType", userType);
-			obj = ap.resultRespone("success", " login success");
+			//obj = ap.resultRespone("success", " login success");
+			obj.put("result","success");
+			obj.put("message", "login success");
+			obj.put("user", userObject);
 		} else {
 			model.addAttribute("message", "Username or password incorrect");
 			obj = ap.resultRespone("failed", "Username or password incorrect");
 		}
 		String str = obj.toString();
+		System.out.println(str);
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 
@@ -223,19 +236,6 @@ public class Api {
 		// kiem tra salt tu client
 		String clientSalt = salt;
 		boolean checkSalt = new ApiModel().checkSalt("getAllUser", username, clientSalt);
-
-		/*
-		 * String ipClient = request.getRemoteAddr(); if
-		 * (session.getAttribute("ipclient").equals(null)){ //kiem tra yeu cau
-		 * tu client String password=new ApiModel().getPassword(username); //tao
-		 * check salt de kiem tra String checkSalt=null; try { checkSalt=new
-		 * Sha1Digest().sha1("api/login/username="+username+"&password="+
-		 * password); } catch (NoSuchAlgorithmException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); } //kiem tra salt
-		 * duoc goi va check salt boolean resultLogin = new
-		 * Sha1Digest().checkSha1(salt, checkSalt); session.setAttribute("ip",
-		 * ipClient); }
-		 */
 
 		String str;
 		if (checkSalt) {

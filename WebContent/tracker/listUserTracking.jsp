@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="/Map/function/Sha1Digest.js" /></script>
+<link rel="shortcut icon" type="image/x-icon" href="/Map/img/tracker.png" />
 <style>
 #list {
 	position: absolute;
@@ -18,7 +19,7 @@ body{
 	padding: 100px 0px 0px 0px;
 }
 </style>
-<title>Insert title here</title>
+<title>List User</title>
 </head>
 <body>
 
@@ -53,23 +54,23 @@ for (var i=0; i<list.length; i++){
 }
 document.getElementById("list").innerHTML = link.join("<br>"); 
 
-/*var saltKey = "1234"
-var salt = getSalt("getAllUser",username,saltKey);
+var saltKey = "1234"
+var salt = getSalt("getAllUser"+saltKey);
 
-$.getJSON('http://'+self.location.host+'/Map/api/getAllUser/username='+username+'&salt='+salt,
+$.getJSON('http://'+self.location.host+'/Map/apiKaa/getListUserTrack/'+salt,
 						function(data) {
 							listObj = data;
 							var link = [];
 							for (var i=0; i<listObj.length; i++){
 								//neu trang thai la on
-									var nameObj = listObj[i].name;
+									var nameObj = listObj[i];
 									link.push("<a href=\"/Map/tracker/trackUser/username="+nameObj+"\">"+nameObj+"</a><br>");
 									//x.innerHTML = "<a href=\"/Map/tracker/trackUser/username="+nameObj+"\">"+nameObj+"</a><br>";
 							}
 							document.getElementById("list").innerHTML = link.join("<br>"); 
 						
 						});
-*/				
+			
 </script>
 </body>
 </html>

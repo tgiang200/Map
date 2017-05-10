@@ -45,50 +45,9 @@ body {
 <center>	
 	<h1>Getting your location...</h1>
 	<h2>Share your location?</h2>
-	<p id="demo"></p>
+	<p id="accept"></p>
+	<p id="cancel"></p>
 	<script>
-		var lat;
-		var lng;
-		var x = document.getElementById("demo");
-		function showPosition(position) {
-			latf = position.coords.latitude;
-			lngf = position.coords.longitude;
-			window.lat=latf;
-			window.lng=lngf;
-			/*var f = document.createElement("form");
-			f.setAttribute('method',"post");
-			f.setAttribute('action',"/Map/tracker/showMap.html");
-
-			var i = document.createElement("input"); //input element, text
-			i.setAttribute('type',"lable");
-			i.setAttribute('name',"lat");
-			i.setAttribute('value',lat);
-
-			var j = document.createElement("input"); //input element, text
-			j.setAttribute('type',"lable");
-			j.setAttribute('name',"lng");
-			j.setAttribute('value',lng);
-
-			
-			var s = document.createElement("input"); //input element, Submit button
-			s.setAttribute('type',"submit");
-			s.setAttribute('value',"Accept");
-
-			f.appendChild(i);
-			f.appendChild(j);
-			f.appendChild(s);
-
-			//and some more input elements here
-			//and dont forget to add a submit button
-
-			document.getElementsByTagName('body')[0].appendChild(f);
-			*/
-
-
-							+"<h2><a href=\"/Map/tracker/mapLocation.html?lat=10.029752243559091&lng=105.76988697052002\">Cancel</a></h2>");
-			//x.innerHTML = lat+"-"+lng;
-		}
-		
 		function getLocation() {
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(getSuccess);
@@ -103,8 +62,9 @@ body {
 			var lat = location.coords.latitude;
 			var lng = location.coords.longitude;
 			//chuyển kết quả đến controller để hiển thị bản đồ
-			x.innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat="+lat+"&lng="+lng+"\">"+
+			document.getElementById("accept").innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat="+lat+"&lng="+lng+"\">"+
 							"Chia sẽ vị trí</a></h2>");
+			document.getElementById("cancel").innerHTML = ("<h2><a href=\"/Map/tracker/mapLocation.html?lat=10.029752243559091&lng=105.76988697052002\">Bỏ qua</a></h2>");
 		}
 		getLocation();
 

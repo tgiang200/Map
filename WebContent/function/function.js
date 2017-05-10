@@ -5,6 +5,7 @@ var map;
 var markers = [];
 
 // Đánh dấu marker trên bản đồ mà push vào mảng marker
+
 function addMarker(location, iconUrl, label, info) {
 	var marker = new google.maps.Marker({
 		position : location,

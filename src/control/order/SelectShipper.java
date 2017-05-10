@@ -63,13 +63,28 @@ public class SelectShipper extends Thread{
 				String id = order.getJSONObject("_id").getString("$oid");
 				String customerAdd = order.getString("customerAddress");
 				String producerAdd = order.getJSONObject("producer").getString("address"); 
+				String groupID = order.getJSONObject("producer").getString("groupID");
+				int groupId = Integer.parseInt(groupID);
 				String type = order.getString("type");
 				String meansure = order.getString("meansure");  
 				String discribe = order.getString("describe");
 				
+				JSONObject objOrder = new JSONObject();
+				objOrder.put("id", id);
+				objOrder.put("customerAdd", customerAdd);
+				objOrder.put("producerAdd", producerAdd);
+				objOrder.put("type", type);
+				objOrder.put("meansure", meansure);
+				objOrder.put("distance", d);
+				objOrder.put("shippingPrice", p);
+				String content = objOrder.toString();
+				
 				//new Client1().sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
 				//Client1 client1 = new Client1();
 				//client1.sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
+				
+				AdminClientKaa k = new AdminClientKaa();
+				k.sendNotificationGroup(groupId, content);
 				
 				Thread.sleep(60000); //Thoi gian cho phan hoi tu shipper
 			}

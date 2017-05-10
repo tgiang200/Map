@@ -33,6 +33,7 @@ public class ApiModel {
 	DBCollection collectionShipper = new ConnectMongo().connect("shipper");
 	DBCollection collectionKaa = new ConnectMongo().connectKaa("logs_24978294676695149906");
 	public final String saltKey = "1234";
+	public String ipServerKaa = "192.168.1.10:8008"; 
 
 	// Get password from username
 	public String getPassword(String username) {
@@ -186,6 +187,23 @@ public class ApiModel {
 		}
 		return array;
 	}
+	
+	// GET ALL User in Kaa database (log)
+	public JSONArray getAllUserKaa(){
+		JSONArray array = new JSONArray();
+		JSONObject obj = new JSONObject();
+		DBCursor cursor = collectionKaa.find();
+		while (cursor.hasNext()){
+			try {
+				obj = new JSONObject(cursor.next().toString());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			array.put(obj);
+		}
+		return array;
+	}
 
 	// GET user onwork with timestamp
 	public void listOnwork() {
@@ -253,10 +271,9 @@ public class ApiModel {
 		}
 		return json;
 	}
-	
 	// get 1 user tu kaa
 	public JSONArray getUserKaaApi(String username) {
-		String strUrl = "http://192.168.43.135:8008/user/"+username;
+		String strUrl = "http://"+ipServerKaa+"/user/"+username;
 		String result = "";
 		try {
 			URL url = new URL(strUrl);
@@ -266,7 +283,7 @@ public class ApiModel {
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setDoOutput(true);
-			connection.setConnectTimeout(120000);
+			connection.setConnectTimeout(30000);
 			connection.setRequestProperty("Authorization", "Basic " + encoding);
 			InputStream content = (InputStream) connection.getInputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(content));
@@ -277,7 +294,8 @@ public class ApiModel {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
+		
 		JSONArray array = new JSONArray();
 		try {
 			array = new JSONArray(result);
@@ -290,8 +308,8 @@ public class ApiModel {
 	
 	
 	// get all user tu kaa
-	public JSONArray getAlltUserKaaApi(String username) {
-			String strUrl = "http://192.168.43.135:8008/users/";
+	public JSONArray getAlltUserKaaApi() {
+			String strUrl = "http://"+ipServerKaa+"/users/";
 			String result = "";
 			try {
 				URL url = new URL(strUrl);
@@ -335,7 +353,7 @@ public class ApiModel {
 		// for (int i=0; i<array.length(); i++){
 		// System.out.println(array.get(i));
 		// }
-		JSONArray r = new ApiModel().getUserKaaApi("http://192.168.43.135:8008/users");
+		JSONArray r = new ApiModel().getAllUserKaa();
 		System.out.println("-------------------------------------------------------");
 		System.out.println(r);
 	}

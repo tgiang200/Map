@@ -4,11 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mongodb.DBCursor;
 
@@ -99,6 +103,8 @@ public class LoginControl {
 	public String forgotForm(){
 		return "login/forgotPassword";
 	}
+	
+	
 	// tạo code
 	@RequestMapping(value="/getCodeEmail")
 	public String getCodeEmail(Model model, HttpServletRequest request){
@@ -140,6 +146,31 @@ public class LoginControl {
 			model.addAttribute("result", "Thông tin tài khoảng không chính xác");
 		}
 		return "login/resultGetNewPassword";
+	}
+	
+	
+	@RequestMapping(value="/api/getCodePhone/userType={typeUser}&username={username}")
+	@ResponseBody
+	public ResponseEntity<String> getCodePhoneAPI(Model model, HttpServletRequest request, @PathVariable String typeUser,
+			@PathVariable String username) throws JSONException{
+		LoginModel loginModel = new LoginModel();
+		String phone = username;
+		String userType = typeUser;
+		JSONObject respone = new JSONObject();
+		//Kiem tra thong tin tai khoan co hop le hay khong
+		boolean acc = loginModel.verifyPhone(phone, userType);
+		if (acc){
+			String code = loginModel.createCode();
+			boolean sendMail = new SendSMS().sendPasswordToSMS(phone, code);
+			boolean updatePassword = loginModel.updatePassword(phone, code, userType);
+			respone.put("result", "success");
+			respone.put("message","success");
+			
+		} else {
+			respone.put("result", "failed");
+			respone.put("message","phone not exist");
+		}
+		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 	}
 	
 	// kiểm tra code

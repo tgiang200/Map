@@ -15,6 +15,7 @@
 <link href="/Map/css/mapCSS.css" rel="stylesheet">
 <script src="/Map/function/function.js" /></script>
 <script src="/Map/function/Sha1Digest.js" /></script>
+<link rel="shortcut icon" type="image/x-icon" href="/Map/img/tracker.png" />
 </head>
 <body>
 
@@ -53,6 +54,7 @@
 		var user = "mongtram";
 		var icon = "/Map/img/blue_gps.png";
 		var iconPosition = "/Map/img/red-location-icon.png";
+		var iconShipper = "/Map/img/shipper.png";
 		var saltKey = "1234"
 		var salt = sha1("getUserTrack"+saltKey);
 		//document.write(username+"<br>"+salt);
@@ -71,7 +73,7 @@
 
 			// This event listener will call addMarker() when the map is clicked.
 			map.addListener('click', function(event) {
-				addMarker(event.latLng, iconPosition, null, event.latLng.lat() + "<br>"
+				addMarker(event.latLng, iconPosition, "location", event.latLng.lat() + "<br>"
 						+ event.latLng.lng());
 			});
 
@@ -110,7 +112,7 @@
 								map : map
 							});
 							
-							addMarker(locationObj[locationObj.length-1], icon , nameObj+"", nameObj+"");
+							addMarker(locationObj[locationObj.length-1], iconShipper , nameObj+"", nameObj+"");
 						});
 
 					

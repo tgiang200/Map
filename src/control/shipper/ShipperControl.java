@@ -39,7 +39,7 @@ public class ShipperControl {
 
 	@RequestMapping(value = "/register")
 	public String registerShipper(Model model, HttpServletRequest request, HttpServletResponse respone)
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException, JSONException {
 
 		request.setCharacterEncoding("UTF-8");
 
@@ -84,6 +84,11 @@ public class ShipperControl {
 		shipper.put("statusConfirm", status);
 		shipper.put("funds", funds);
 
+		JSONObject SIP = new LoginModel().getAccountSIP();
+		String SIPAccount = SIP.getString("account");
+		
+		shipper.put("SIPAccount", SIPAccount);
+		
 		boolean resultInsert = new ShipperModel().insertShipper(shipper);
 		if (resultInsert) {
 			// Goi password bang sms
@@ -102,7 +107,7 @@ public class ShipperControl {
 
 	// API đăng kí shipper
 	@RequestMapping(value = "/api/registerShipper/phone={phone}&fullname={fullname}&address={address}&idCard={idCard}&vehicle={vehicle}&"
-			+ "email={email}&dateOfBirth={dateOfBirth}&facebook={facebook}&vehicleNumber={vehicleNumber}&password={password}", method = RequestMethod.GET, produces = "application/json")
+			+ "email={email}&dateOfBirth={dateOfBirth}&facebook={facebook}&vehicleNumber={vehicleNumber}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> apiRegister(Model model, HttpServletRequest request, @PathVariable String phone,
 			@PathVariable String fullname, @PathVariable String address, @PathVariable String idCard,
@@ -138,6 +143,11 @@ public class ShipperControl {
 		shipper.put("statusConfirm", status);
 		shipper.put("funds", "0");
 
+		JSONObject SIP = new LoginModel().getAccountSIP();
+		String SIPAccount = SIP.getString("account");
+		
+		shipper.put("SIPAccount", SIPAccount);
+		
 		boolean result = new ShipperModel().insertShipper(shipper);
 		if (result) {
 			// Goi password bang sms
