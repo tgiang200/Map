@@ -72,6 +72,7 @@ public class ProducerControl {
 		producer.put("facebook", facebook);
 		producer.put("businessType", businessType);
 		producer.put("password", password);
+		
 		producer.put("lat", lat);
 		producer.put("lng", lng);
 		producer.put("statusConfirm", status);
@@ -86,7 +87,8 @@ public class ProducerControl {
 		if (resultInsert) {
 			// Goi password bang sms
 			boolean b = new SendSMS().sendPasswordToSMS(phone, password);
-			model.addAttribute("result", "Đăng kí thành công, đang chờ duyệt");
+			model.addAttribute("result", "Đăng kí thành công, đang chờ duyệt"+
+								"<br>(Mật khẩu đã được gởi đến số điện thoại của bạn)");
 		} else {
 			model.addAttribute("result", "Số điện thoại đã được sử dụng để đăng kí");
 		}
@@ -119,6 +121,7 @@ public class ProducerControl {
 		// boolean resultSendSMS = new ProducerModel().sendSMS(phoneVN,
 		// password);
 		// if (resultSendSMS) {
+		String password = new ApiModel().createCode();
 		BasicDBObject producer = new BasicDBObject();
 
 		producer.put("_id", phone);
@@ -130,7 +133,7 @@ public class ProducerControl {
 		producer.put("email", email);
 		producer.put("facebook", facebook);
 		producer.put("businessType", businessType);
-		//producer.put("password", password);
+		producer.put("password", password);
 		producer.put("lat", lat);
 		producer.put("lng", lng);
 		producer.put("statusConfirm", status);
@@ -140,7 +143,7 @@ public class ProducerControl {
 		
 		producer.put("SIPAccount", SIPAccount);
 		
-		String password = new ApiModel().createCode();
+		//String password = new ApiModel().createCode();
 		
 		boolean result = new ProducerModel().insertProducer(producer);
 		if (result) {

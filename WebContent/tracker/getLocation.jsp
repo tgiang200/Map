@@ -43,8 +43,7 @@ body {
 </c:choose> 
 
 <center>	
-	<h1>Getting your location...</h1>
-	<h2>Share your location?</h2>
+	<h1>Cho phép chia sẽ vị trí?</h1>
 	<p id="accept"></p>
 	<p id="cancel"></p>
 	<script>

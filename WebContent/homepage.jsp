@@ -20,7 +20,7 @@ try {
 	String userType = session.getAttribute("userType").toString();
 	pageContext.setAttribute("userType", userType);
 } catch (Exception ex){
-	String useType = ""; 
+	String useType = "nonUser"; 
 }
 %>
 <c:choose>
@@ -43,7 +43,7 @@ try {
       <div class="container">
         <h1>Mạng xã hội vận chuyển hàng hóa</h1>
         <p>Mạng xã hội vận chuyển hàng hóa là nơi giúp cho việc giao trở nên dễ dàng và đơn giản hơn.</p>
-        <p><a class="btn btn-primary btn-lg" href="/Map/account/loginForm.html" role="button">Đăng nhập &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" href="/Map/learnMore.html" role="button">Tìm hiểu thêm &raquo;</a></p>
       </div>
     </div>
 
@@ -61,7 +61,9 @@ try {
           <p><a class="btn btn-default" href="/Map/shipper/formRegister.html" role="button">Đăng kí shipper &raquo;</a></p>
        </div>
         <div class="col-md-4">
-
+        <center>
+			<img alt="" src="/Map/img/trackingShipper.png" width="250px" height="250px">
+		</center>
         </div>
       </div>
 

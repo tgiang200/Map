@@ -45,6 +45,6 @@ public class SendSMS {
 	}
 	
 	public static void main(String [] args){
-		System.out.println(new SendSMS().sendPasswordToSMS("01656503696", "123456789329849324783"));
+		System.out.println(new SendSMS().sendPasswordToSMS("0962139956", "123456789329849324783"));
 	}
 }

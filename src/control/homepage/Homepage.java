@@ -9,4 +9,9 @@ public class Homepage {
 	public String homepage(){
 		return "homepage";
 	}
+	
+	@RequestMapping(value="/learnMore")
+	public String learnMore(){
+		return "learnMore";
+	}
 }

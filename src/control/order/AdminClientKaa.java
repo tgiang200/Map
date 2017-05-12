@@ -2,11 +2,13 @@ package control.order;
 
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,10 +26,12 @@ import org.kaaproject.kaa.common.dto.TopicTypeDto;
 import org.kaaproject.kaa.common.dto.UpdateStatus;
 import org.kaaproject.kaa.server.common.admin.AdminClient;
 
+import Decoder.BASE64Encoder;
+
 public class AdminClientKaa {
-	private  static String hostIP = "192.168.1.86";
+	private  static String hostIP = "192.168.43.133";
 	private static String applicationToken = "11067412692148090898";
-	private String urlREST = "http://http://192.168.12.124:8008/user/";
+	private static String urlREST = "http://192.168.43.135:8008/user/";
 //	private static String notificationResource1 = "{\"alertMessage\":\"Hello\"}";
 	private static String id = "2";
 	private static String customerAdd = "3";
@@ -45,16 +49,11 @@ public class AdminClientKaa {
 			AdminClientKaa client1 = new AdminClientKaa();
 			AdminClient client = new AdminClient(hostIP, 8080);
 			client.login("devuser", "devuser123");
-//			client1.sendNotificationGroup(groupId, contentNoti);
-////			client.getTopicsByApplicationToken(applicationToken);
-     		client1.createGroup("CanTho");
-//			List<TopicDto> topics = client.getTopicsByApplicationToken(applicationToken);
-//			System.out.println(topics);
-//			System.out.println("------------------");
-//			String id = client1.getTopicByGroup(3);
-//			System.out.println(id);
-     		client1.sendNotificationGroup(1, contentNoti);
-			
+			String r = new AdminClientKaa().sendGet(urlREST+"B1208725");
+			String h = client1.getHeader(r);
+			String end = client1.getEndpointKeyHash(h);
+			System.out.println(end);
+			System.out.println(r);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,7 +122,7 @@ public class AdminClientKaa {
 		client.sendNotification(notificationDto, "notification", content);
 		
 	}
-	public void sendAllNotification(String id, String content) throws Exception{
+	public void sendAllNotification(String content) throws Exception{
 		
 		AdminClient client = new AdminClient(hostIP, 8080);
 		client.login("devuser", "devuser123");	
@@ -152,25 +151,53 @@ public class AdminClientKaa {
 		client.sendUnicastNotification(notificationDto, clientKeyHash, "notification", content);
 		
 	}
-	public String sendGet(String url) throws Exception{
+//	public String sendGet(String url) throws Exception{
+//		
+//		URL url1 = new URL(url);
+//		HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
+//		conn.setRequestMethod("GET");
+//		conn.setRequestProperty("Accept", "application/json");
+//		if (conn.getResponseCode() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : "
+//					+ conn.getResponseCode());
+//		}
+//		BufferedReader br = new BufferedReader(new InputStreamReader(
+//			(conn.getInputStream())));
+//		
+//		String output;
+//		String jsonArr = "";
+//		while ((output = br.readLine()) != null) {
+//			jsonArr+=output;
+//		}
+//		return jsonArr;
+//	}
+//	
+	public String sendGet(String strUrl) {
+		String result = "";
+		try {
+			URL url = new URL(strUrl);
+			byte[] auth = "user1:password1".getBytes();
+			String encoding = new BASE64Encoder().encode(auth);
+
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setDoOutput(true);
+			connection.setConnectTimeout(30000);
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+			InputStream content = (InputStream) connection.getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(content));
+			String line;
+			while ((line = in.readLine()) != null) {
+				result = result + line;
+				// System.out.println(line);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		
-		URL url1 = new URL(url);
-		HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Accept", "application/json");
-		if (conn.getResponseCode() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ conn.getResponseCode());
-		}
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-			(conn.getInputStream())));
+		//JSONArray array = new JSONArray(result);
 		
-		String output;
-		String jsonArr = "";
-		while ((output = br.readLine()) != null) {
-			jsonArr+=output;
-		}
-		return jsonArr;
+		return result;
 	}
 	public String getHeader(String jsonArr) throws ParseException{
 		

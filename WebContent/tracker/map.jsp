@@ -21,6 +21,24 @@ body {
 </style>
 </head>
 <body>
+<%
+	String userType = session.getAttribute("userType").toString();
+	pageContext.setAttribute("userType", userType);
+%>
+<c:choose>
+    <c:when test="${userType == 'center'}">
+        <%@include file="../include/menu.jsp"%>
+    </c:when>
+    <c:when test="${userType == 'producer'}">
+        <%@include file="../include/menuProducer.jsp"%>
+    </c:when>
+    <c:when test="${userType == 'shipper'}">
+        <%@include file="../include/menuShipper.jsp"%>
+    </c:when>
+    <c:otherwise>
+    	<%@include file="../include/menuShipper.jsp"%>
+    </c:otherwise>
+</c:choose> 
 	
 	<!--<div id="floating-panel">
 		<input onclick="clearMarkers();" type=button value="Hide Markers">

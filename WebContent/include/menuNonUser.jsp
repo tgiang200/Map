@@ -64,6 +64,10 @@
 					</ul></li>
 
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/Map/account/loginForm.html">Đăng nhập</a></li>
+				<li><a href="/Map/shipper/formRegister.html">Đăng ký</a></li>
+			</ul>
 
 		</div>
 		<!--/.nav-collapse -->

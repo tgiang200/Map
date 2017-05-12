@@ -19,8 +19,8 @@ body{
 }
 </style>
 <script type="text/javascript">
-	var username = '${username}';
-	var password = '${password}';
+	var username = '${SIPUsername}';
+	var password = '${SIPPasswork}';
 	$(document).ready(function() {
 		// Can khoi tao 2 Button login va logout trong HTML
 		setLoginButton('btn-login', 'btn-logout');
@@ -75,7 +75,7 @@ body{
 
 		// Xu ly nut "Send message"
 		$('#btn-send').click(function() {
-			var msg = $('#txtMessage').val();
+			var msg = username +"/" + $('#txtMessage').val();
 
 			// createMessageSession();
 			sendMessage($('#txt-sendTo').val(), msg);
@@ -143,7 +143,7 @@ try {
 	<tr>
 		<td>Mật khẩu</td>
 		<td>
-		<input id="txt-password" type="text" value="cqmcqm">
+		<input id="txt-password" type="password" value="cqmcqm">
 		</td>
 	</tr>
 	<tr>

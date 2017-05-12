@@ -33,7 +33,7 @@ public class ApiModel {
 	DBCollection collectionShipper = new ConnectMongo().connect("shipper");
 	DBCollection collectionKaa = new ConnectMongo().connectKaa("logs_24978294676695149906");
 	public final String saltKey = "1234";
-	public String ipServerKaa = "192.168.1.10:8008"; 
+	public String ipServerKaa = "192.168.43.135:8008"; 
 
 	// Get password from username
 	public String getPassword(String username) {
@@ -64,11 +64,25 @@ public class ApiModel {
 	}
 
 	public boolean loginShipper(String username, String password) {
+		boolean result = false;
 		BasicDBObject whereQuery = new BasicDBObject();
 		whereQuery.put("phone", username);
 		whereQuery.put("password", password);
 		DBCursor cursor = collectionShipper.find(whereQuery);
-		return cursor.hasNext();
+		if (cursor.hasNext()){
+			try {
+				JSONObject obj = new JSONObject(cursor.next().toString());
+				if (obj.getString("statusConfirm").equals("confirmed")){
+					result = true;
+				} else {
+					result = false;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	public boolean verifyPhoneInDB(String userType, String phone) {
@@ -215,10 +229,10 @@ public class ApiModel {
 
 	// Lay tu API
 	// API get vi tri user onwork
-	public JSONArray getAllUserKaaApi() {
+	public JSONArray getAllUserKaaApi(String url) {
 		JSONArray array = new JSONArray();
 		try {
-			array = new ApiModel().readJsonFromUrl("http://172.30.40.154:8008/users");
+			array = new ApiModel().readJsonFromUrl(url);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -343,17 +357,8 @@ public class ApiModel {
 	
 	// ---------------------------------------------------------------------------------------
 	public static void main(String[] args) throws IOException, JSONException {
-		// JSONArray array = new
-		// ApiModel().readJsonFromUrl("http://192.168.43.135:8008/user/my");
-		// System.out.println("start");
-		// for (int i=0; i<array.length(); i++){
-		// System.out.println(array.get(i));
-		// }
-		// //JSONArray array = new ApiModel().getUserKaa("user1");
-		// for (int i=0; i<array.length(); i++){
-		// System.out.println(array.get(i));
-		// }
-		JSONArray r = new ApiModel().getAllUserKaa();
+
+		boolean r = new ApiModel().loginShipper("2222", "abc");
 		System.out.println("-------------------------------------------------------");
 		System.out.println(r);
 	}

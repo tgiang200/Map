@@ -15,7 +15,7 @@
 	width: 496;
 }
 a{
-	color: #FF8000;
+	color: #CC9900;
 	font-size: 17px;
 	text-decoration: none !important;
 	font-weight: bold;

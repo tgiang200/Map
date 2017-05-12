@@ -99,7 +99,7 @@
 						<li><a href="/Map/shipper/listShipperConfirmed.html">Shipper đã duyệt</a></li>
 						<li><a href="/Map/shipper/addFundsForm.html">Thêm quỹ cho shipper</a></li>
 					</ul></li>
-				<li><a href="http://localhost:8080/Map/call/callPage.html">Call & SMS</a></li>
+				<li><a href="http://192.168.43.103:8080/Map/call/callPage.html">Call & SMS</a></li>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

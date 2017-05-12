@@ -60,12 +60,8 @@ public class ShipperControl {
 		// // tao password
 		String password = new ApiModel().createCode();
 		// // Goi password bang sms
-		// String phoneVN = "+" + phone;
-		// phoneVN = phoneVN.replace("+0", "+84"); // doi dau so dien thoai sang
-		// +84
-		// boolean resultSendSMS = new TwilioSendSMS().sendSMS(phoneVN,
-		// password);
-		// if (resultSendSMS) {
+		 String phoneVN = "+" + phone;
+		 phoneVN = phoneVN.replace("+0", "+84"); // doi dau so dien thoai sang +84
 
 		BasicDBObject shipper = new BasicDBObject();
 
@@ -84,24 +80,21 @@ public class ShipperControl {
 		shipper.put("statusConfirm", status);
 		shipper.put("funds", funds);
 
-		JSONObject SIP = new LoginModel().getAccountSIP();
-		String SIPAccount = SIP.getString("account");
+		//JSONObject SIP = new LoginModel().getAccountSIP();
+		//String SIPAccount = SIP.getString("account");
 		
-		shipper.put("SIPAccount", SIPAccount);
+		shipper.put("SIPAccount", "user10");
 		
 		boolean resultInsert = new ShipperModel().insertShipper(shipper);
 		if (resultInsert) {
 			// Goi password bang sms
-			boolean b = new SendSMS().sendPasswordToSMS(phone, password);
-			model.addAttribute("result", "Đăng kí thành công, đang chờ duyệt");
+			boolean b = new SendSMS().sendPasswordToSMS(phoneVN, password);
+			model.addAttribute("result", "Đăng kí thành công, đang chờ duyệt"+
+								"<br>(Mật khẩu đã được gởi đến số điện thoại của bạn)");
 		} else {
 			model.addAttribute("result", "Số điện thoại này đã được sử dụng để đăng ký");
 			return "shipper/resultRegister";
 		}
-		// } else {
-		// model.addAttribute("result", "Có lỗi xảy ra khi gởi mật khẩu đến số
-		// điện thoại " + phone);
-		// }
 		return "shipper/resultRegister";
 	}
 
@@ -119,13 +112,10 @@ public class ShipperControl {
 		JSONObject respone = new JSONObject();
 		// // tao password
 		String password = new ApiModel().createCode();
-		// // Goi password bang sms
-		// String phoneVN = "+" + phone;
-		// phoneVN = phoneVN.replace("+0", "+84"); // doi dau so dien thoai sang
-		// +84
-		// boolean resultSendSMS = new TwilioSendSMS().sendSMS(phoneVN,
-		// password);
-		// if (resultSendSMS) {
+	
+		 String phoneVN = "+" + phone;
+		 phoneVN = phoneVN.replace("+0", "+84"); // doi dau so dien thoai sang +84
+		
 		BasicDBObject shipper = new BasicDBObject();
 
 		shipper.put("_id", phone);
@@ -141,27 +131,25 @@ public class ShipperControl {
 		shipper.put("password", password);
 		// shipper.put("convey", convey);
 		shipper.put("statusConfirm", status);
-		shipper.put("funds", "0");
+		shipper.put("funds", "10000");
 
-		JSONObject SIP = new LoginModel().getAccountSIP();
-		String SIPAccount = SIP.getString("account");
-		
-		shipper.put("SIPAccount", SIPAccount);
+//		JSONObject SIP = new LoginModel().getAccountSIP();
+//		String SIPAccount = SIP.getString("account");
+//		
+//		shipper.put("SIPAccount", SIPAccount);
+		shipper.put("SIPAccount", "user10");
 		
 		boolean result = new ShipperModel().insertShipper(shipper);
 		if (result) {
 			// Goi password bang sms
 			respone.put("result", "success");
 			respone.put("message", "success");
-			boolean b = new SendSMS().sendPasswordToSMS(phone, password);
+			boolean b = new SendSMS().sendPasswordToSMS(phoneVN, password);
 		} else {
 			respone.put("result", "failed");
 			respone.put("message", "Phone is existing");
 		}
-		// } else {
-		// respone.put("result", "failed");
-		// respone.put("message", "Cannot send SMS");
-		// }
+
 		return new ResponseEntity<String>(respone.toString(), HttpStatus.OK);
 	}
 
