@@ -1,5 +1,7 @@
 package control.order;
 
+import java.util.Random;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,57 +38,61 @@ public class SelectShipper extends Thread{
 			double radiusFind = 1; //ban kinh tim shipper km
 			while (true){
 				// New da ton tai shipper trong don hang
-//				if (orderModel.verifyShipperOrder(orderID)){
-//					System.out.print("Da chon shipper cho don hang");
-//					break;
-//				} else {
-//					String strLat = order.getJSONObject("producer").getString("lat");
-//					String strLng = order.getJSONObject("producer").getString("lng");
-//					listOnwork = orderModel.getListShipper(strLat, strLng, radiusFind);
-//					timeSend = timeSend+1;
-//					if ((timeSend%5==0)&&(radiusFind<5)){
-//						radiusFind=radiusFind+0.5; //tang ban kinh do tim len 500m , toi da 5km
-//					}
-//					numShipper = new Random().nextInt(listOnwork.length()+1) - 1;
-//					if (!listOnwork.isNull(numShipper)){
-//						// Send message den shipper
-//						String message = "Da goi yeu cau van chuyen don hang "+orderID+" den shipper "+listOnwork.getJSONObject(numShipper).getJSONObject("event").getString("username");
-//						//new Message().sendMessage(message);
+				if (orderModel.verifyShipperOrder(orderID)){
+					System.out.print("Da chon shipper cho don hang");
+					break;
+				} else {
+					String strLat = order.getJSONObject("producer").getString("lat");
+					String strLng = order.getJSONObject("producer").getString("lng");
+					listOnwork = orderModel.getListShipper(strLat, strLng, radiusFind);
+					timeSend = timeSend+1;
+					if ((timeSend%5==0)&&(radiusFind<5)){
+						radiusFind=radiusFind+0.5; //tang ban kinh do tim len 500m , toi da 5km
+					}
+					numShipper = new Random().nextInt(listOnwork.length()+1) - 1;
+					if (!listOnwork.isNull(numShipper)){
+						// Send message den shipper
+						String message = "Da goi yeu cau van chuyen don hang "+orderID+" den shipper "+listOnwork.getJSONObject(numShipper).getJSONObject("event").getString("username");
+						//new Message().sendMessage(message);
 //						new Message().sendOrder(order.get("_id").toString(), order.getString("customerAddress"), order.getString("address"), 
 //								order.getString("type"), order.getString("meansure"), Long.parseLong(order.getString("distance")), Long.parseLong(order.getString("price")), order.getString("discribe"));
-//					} else {
-//						System.out.println("No shipper near producer");
-//					}
-//				}
-				long d = Long.parseLong(order.getString("distance"));
-				long p = Long.parseLong(order.getString("shippingPrice"));
-				String id = order.getJSONObject("_id").getString("$oid");
-				String customerAdd = order.getString("customerAddress");
-				String producerAdd = order.getJSONObject("producer").getString("address"); 
-				String groupID = order.getJSONObject("producer").getString("groupID");
-				int groupId = Integer.parseInt(groupID);
-				String type = order.getString("type");
-				String meansure = order.getString("meansure");  
-				String discribe = order.getString("describe");
+						System.out.println("=========================================================");
+						System.out.println(message);
+						System.out.println("=========================================================");
+					} else {
+						System.out.println("No shipper near producer");
+					}
+				}
 				
-				JSONObject objOrder = new JSONObject();
-				objOrder.put("id", id);
-				objOrder.put("customerAdd", customerAdd);
-				objOrder.put("producerAdd", producerAdd);
-				objOrder.put("type", type);
-				objOrder.put("meansure", meansure);
-				objOrder.put("distance", d);
-				objOrder.put("shippingPrice", p);
-				String content = objOrder.toString();
+//				long d = Long.parseLong(order.getString("distance"));
+//				long p = Long.parseLong(order.getString("shippingPrice"));
+//				String id = order.getJSONObject("_id").getString("$oid");
+//				String customerAdd = order.getString("customerAddress");
+//				String producerAdd = order.getJSONObject("producer").getString("address"); 
+//				String groupID = order.getJSONObject("producer").getString("groupID");
+//				int groupId = Integer.parseInt(groupID);
+//				String type = order.getString("type");
+//				String meansure = order.getString("meansure");  
+//				String discribe = order.getString("describe");
+//				
+//				JSONObject objOrder = new JSONObject();
+//				objOrder.put("id", id);
+//				objOrder.put("customerAdd", customerAdd);
+//				objOrder.put("producerAdd", producerAdd);
+//				objOrder.put("type", type);
+//				objOrder.put("meansure", meansure);
+//				objOrder.put("distance", d);
+//				objOrder.put("shippingPrice", p);
+//				String content = objOrder.toString();
+//				
+//				//new Client1().sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
+//				//Client1 client1 = new Client1();
+//				//client1.sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
+//				
+//				AdminClientKaa k = new AdminClientKaa();
+//				k.sendNotificationGroup(groupId, content);
 				
-				//new Client1().sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
-				//Client1 client1 = new Client1();
-				//client1.sendAllNotification(id, customerAdd, producerAdd, type, meansure, d, p, discribe);
-				
-				AdminClientKaa k = new AdminClientKaa();
-				k.sendNotificationGroup(groupId, content);
-				
-				Thread.sleep(60000); //Thoi gian cho phan hoi tu shipper
+				Thread.sleep(5000); //Thoi gian cho phan hoi tu shipper
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

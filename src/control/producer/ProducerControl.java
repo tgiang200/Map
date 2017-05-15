@@ -341,7 +341,7 @@ public class ProducerControl {
 		String password = request.getParameter("password");
 		String lat = request.getParameter("lat");
 		String lng = request.getParameter("lng");
-		String status = "waiting";
+		String status = "confirmed";
 
 		BasicDBObject producer = new BasicDBObject();
 

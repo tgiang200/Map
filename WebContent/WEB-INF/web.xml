@@ -38,18 +38,18 @@
     </session-config>
     
      <!-- This will catch Http 500 error -->
-	<!-- 
+	
 	<error-page>
 	    <error-code>500</error-code>
 	    <location>/errorpage/error500.jsp</location>
 	</error-page>
-	 -->
+	
 	<!-- This will catch Http 404 error -->
-	<!-- 
+	
 	<error-page>
 	    <error-code>404</error-code>
 	    <location>/errorpage/error404.jsp</location>
 	</error-page>
-	 -->
+	 
 </web-app>
 

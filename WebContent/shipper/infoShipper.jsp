@@ -21,7 +21,7 @@ td, th{
 	color: blue;
 }
 </style>
-<title>Confirm producer</title>
+<title>Info Shipper</title>
 </head>
 <body>
 <%

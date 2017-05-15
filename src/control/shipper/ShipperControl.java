@@ -273,7 +273,7 @@ public class ShipperControl {
 		// String convey = request.getParameter("convey")+"";
 		String password = request.getParameter("password");
 		String funds = request.getParameter("funds");
-		String status = "waiting";
+		String status = "confirmed";
 
 		BasicDBObject shipper = new BasicDBObject();
 

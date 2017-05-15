@@ -334,10 +334,7 @@ public class OrderModel {
 //		// while (cursor.hasNext()){
 //		//System.out.println(od.deleteShipper("58f0e64c9fd5a3250852a1f0", "11111"));
 //		// }
-		JSONArray array = new OrderModel().searchOrder("shipper");
-		for (int i=0; i<array.length(); i++){
-			System.out.println(array.getJSONObject(i));
-		}
+		od.findingShipper("58f0da329fd5a3250867610b");
 		
 	}
 

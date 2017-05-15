@@ -22,7 +22,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.jdbc-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.web-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ReferencedLibraries/org.springframework.web.servlet-3.2.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/tgian/Downloads/ThuVienKaa/org-apache-commons-logging.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/httpclient-4.5.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/twilioLib/httpcore-4.3.jar"/>
